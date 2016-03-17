@@ -1,0 +1,30 @@
+Package: FuzzyAHP
+Type: Package
+Title: (Fuzzy) AHP Calculation
+Version: 0.2.0
+Date: 2016-03-14
+Authors@R: person("Jan", "Caha", email = "jan.caha@outlook.com",
+  role = c("aut", "cre"))
+Maintainer: Jan Caha <jan.caha@outlook.com>
+Description: Package for calculation of AHP (both classic and fuzzy) based on Saaty's
+    pairwise comparison method for determination of weights.
+Depends:
+    R (>= 3.0.0)
+License: GPL-3
+LazyData: TRUE
+RoxygenNote: 5.0.1
+Collate:
+    'class-PairwiseComparisonMatrix.R'
+    'class-FuzzyData.R'
+    'class-FuzzyPairwiseComparisonMatrix.R'
+    'class-FuzzyWeights.R'
+    'class-Weights.R'
+    'function-bindFuzzyData.R'
+    'function-calculateAHP.R'
+    'function-calculateWeights.R'
+    'function-compare.R'
+    'function-consistencyRatio.R'
+    'function-defuzzify.R'
+    'function-getFuzzyNumbers.R'
+    'function-strictConsistency.R'
+    'function-weakConsistency.R'
