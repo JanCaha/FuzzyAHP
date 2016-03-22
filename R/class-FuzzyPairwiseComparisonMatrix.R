@@ -38,7 +38,7 @@ setClass(
 #' @param pairwiseComparisonMatrix \linkS4class{PairwiseComparisonMatrix}.
 #' @param ... Place to pass fuzzyScale
 #'
-#' @usage FuzzyPairwiseComparisonMatrix(pairwiseComparisonMatrix, ...)
+#' @usage fuzzyPairwiseComparisonMatrix(pairwiseComparisonMatrix, ...)
 #'
 #' @return Object of class \linkS4class{FuzzyPairwiseComparisonMatrix}
 #'
@@ -46,11 +46,11 @@ setClass(
 #'
 #' @include class-PairwiseComparisonMatrix.R
 #'
-setGeneric("FuzzyPairwiseComparisonMatrix",
-           function(pairwiseComparisonMatrix, ...) standardGeneric("FuzzyPairwiseComparisonMatrix"))
+setGeneric("fuzzyPairwiseComparisonMatrix",
+           function(pairwiseComparisonMatrix, ...) standardGeneric("fuzzyPairwiseComparisonMatrix"))
 
 setMethod(
-  f="FuzzyPairwiseComparisonMatrix",
+  f="fuzzyPairwiseComparisonMatrix",
   signature(pairwiseComparisonMatrix = "PairwiseComparisonMatrix"),
   definition=function(pairwiseComparisonMatrix, fuzzyScale = as.double(c(1/2,1,2,
                                                                          1,2,3,
