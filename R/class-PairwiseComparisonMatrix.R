@@ -56,6 +56,13 @@ setClass(
       }
     }
 
+    if(max(object@values) > 9){
+      return(paste("The maximal value in the pairwise comparison matrix should not be higher than 9, however,",
+                   "the value ", max(object@values), " was found.", sep = ""))
+    }
+
+    max(comparisonMatrix)
+
     # OK
     return(TRUE)
   }
