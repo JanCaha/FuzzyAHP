@@ -2,3 +2,7 @@
 .Rhistory
 .RData
 /man
+/vignettes/ahp-bibliography.bib.bak
+/vignettes/examples.html
+/vignettes/examples.R
+/vignettes/main-info.html
