@@ -7,7 +7,6 @@
 #' @slot fnMax A numeric vector of maximal values of fuzzy data.
 #'
 #' @export
-#' @include class-PairwiseComparisonMatrix.R
 setClass(
   Class="FuzzyData",
 
@@ -51,11 +50,13 @@ setClass(
 #'
 #' @seealso \linkS4class{FuzzyData}
 #'
-#' @usage fuzzyData(data)
-#'
+#' @rdname fuzzyData-methods
+#' @name fuzzyData
 setGeneric("fuzzyData",
            function(data) standardGeneric("fuzzyData"))
 
+#' @rdname fuzzyData-methods
+#' @aliases fuzzyData,matrix-method
 setMethod(
   f="fuzzyData",
   signature(data = "matrix"),

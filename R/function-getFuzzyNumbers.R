@@ -10,10 +10,13 @@
 #' @return A \code{matrix} where rows
 #'
 #' @export
-#'
+#' @rdname getFuzzyNumber-methods
+#' @name getFuzzyNumber
 setGeneric("getFuzzyNumber",
            function(object,index) standardGeneric("getFuzzyNumber"))
 
+#' @rdname getFuzzyNumber-methods
+#' @aliases getFuzzyNumber,FuzzyData,integer-method
 setMethod(
   f="getFuzzyNumber",
   signature(object = "FuzzyData", index = "integer"),
@@ -33,6 +36,8 @@ setMethod(
   }
 )
 
+#' @rdname getFuzzyNumber-methods
+#' @aliases getFuzzyNumber,FuzzyWeights,integer-method
 setMethod(
   f="getFuzzyNumber",
   signature(object = "FuzzyWeights", index = "integer"),

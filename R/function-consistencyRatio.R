@@ -11,12 +11,13 @@
 #' rows a value of Consistency index, that needs to be further evaluated.
 #'
 #' @export
-#'
-#' @include class-PairwiseComparisonMatrix.R
-#'
+#' @rdname consistencyRatio-methods
+#' @name consistencyRatio
 setGeneric("consistencyRatio",
            function(comparisonMatrix) standardGeneric("consistencyRatio"))
 
+#' @rdname consistencyRatio-methods
+#' @aliases consistencyRatio,PairwiseComparisonMatrix-method
 setMethod(
   f="consistencyRatio",
   signature(comparisonMatrix = "PairwiseComparisonMatrix"),

@@ -11,9 +11,13 @@
 #' @return An object of class \code{\linkS4class{FuzzyData}}
 #'
 #' @export
+#' @rdname bindColums-methods
+#' @name bindColums
 setGeneric("bindColums",
            function(data1, data2) standardGeneric("bindColums"))
 
+#' @rdname bindColums-methods
+#' @aliases bindColums,FuzzyData,FuzzyData-method
 setMethod(
   f= "bindColums",
   signature(data1 = "FuzzyData", data2 = "FuzzyData"),

@@ -8,9 +8,13 @@
 #' @seealso \link{PairwiseComparisonMatrix-class}
 #'
 #' @export
+#' @rdname calculateWeights-methods
+#' @name calculateWeights
 setGeneric("calculateWeights",
            function(comparisonMatrix) standardGeneric("calculateWeights"))
 
+#' @rdname calculateWeights-methods
+#' @aliases calculateWeights,PairwiseComparisonMatrix-method
 setMethod(
   f="calculateWeights",
   signature(comparisonMatrix="PairwiseComparisonMatrix"),
@@ -39,6 +43,8 @@ setMethod(
   }
 )
 
+#' @rdname calculateWeights-methods
+#' @aliases calculateWeights,FuzzyPairwiseComparisonMatrix-method
 setMethod(
   f="calculateWeights",
   signature(comparisonMatrix="FuzzyPairwiseComparisonMatrix"),

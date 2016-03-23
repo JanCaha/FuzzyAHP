@@ -14,9 +14,13 @@
 #' \linkS4class{FuzzyData} (if \linkS4class{FuzzyWeights} were used).
 #'
 #' @export
+#' @rdname calculateAHP-methods
+#' @name calculateAHP
 setGeneric("calculateAHP",
            function(weights, data) standardGeneric("calculateAHP"))
 
+#' @rdname calculateAHP-methods
+#' @aliases calculateAHP,Weights,matrix-method
 setMethod(
   f="calculateAHP",
   signature(weights = "Weights", data = "matrix"),
@@ -38,6 +42,8 @@ setMethod(
   }
 )
 
+#' @rdname calculateAHP-methods
+#' @aliases calculateAHP,FuzzyWeights,matrix-method
 setMethod(
   f="calculateAHP",
   signature(weights = "FuzzyWeights", data = "matrix"),
@@ -59,6 +65,8 @@ setMethod(
   }
 )
 
+#' @rdname calculateAHP-methods
+#' @aliases calculateAHP,FuzzyWeights,FuzzyData-method
 setMethod(
   f="calculateAHP",
   signature(weights = "FuzzyWeights", data = "FuzzyData"),
@@ -80,6 +88,8 @@ setMethod(
   }
 )
 
+#' @rdname calculateAHP-methods
+#' @aliases calculateAHP,PairwiseComparisonMatrix,matrix-method
 setMethod(
   f="calculateAHP",
   signature(weights = "PairwiseComparisonMatrix", data = "matrix"),
@@ -89,9 +99,22 @@ setMethod(
   }
 )
 
+#' @rdname calculateAHP-methods
+#' @aliases calculateAHP,FuzzyPairwiseComparisonMatrix,matrix-method
 setMethod(
   f="calculateAHP",
   signature(weights = "FuzzyPairwiseComparisonMatrix", data = "matrix"),
+  definition=function(weights, data)
+  {
+    return (calculateAHP(calculateWeights(weights), data))
+  }
+)
+
+#' @rdname calculateAHP-methods
+#' @aliases calculateAHP,FuzzyPairwiseComparisonMatrix,FuzzyData-method
+setMethod(
+  f="calculateAHP",
+  signature(weights = "FuzzyPairwiseComparisonMatrix", data = "FuzzyData"),
   definition=function(weights, data)
   {
     return (calculateAHP(calculateWeights(weights), data))

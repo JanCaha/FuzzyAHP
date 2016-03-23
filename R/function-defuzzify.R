@@ -11,11 +11,15 @@
 #' @return A numeric value of defuzzified value, based on deffuzification method.
 #'
 #' @export
-setGeneric("defuziffy",
-           function(fuzzyData, type) standardGeneric("defuziffy"))
+#' @rdname defuzziffy-methods
+#' @name defuzziffy
+setGeneric("defuzziffy",
+           function(fuzzyData, type) standardGeneric("defuzziffy"))
 
+#' @rdname defuzziffy-methods
+#' @aliases defuzziffy,FuzzyData,character-method
 setMethod(
-  f="defuziffy",
+  f="defuzziffy",
   signature(fuzzyData = "FuzzyData", type = "character"),
   definition=function(fuzzyData, type)
   {

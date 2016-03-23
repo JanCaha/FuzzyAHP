@@ -11,9 +11,13 @@
 #' listing the problematic triplets if the matrix is not consisten.
 #'
 #' @export
+#' @rdname weakConsistency-methods
+#' @name weakConsistency
 setGeneric("weakConsistency",
            function(PairwiseComparisonMatrix) standardGeneric("weakConsistency"))
 
+#' @rdname weakConsistency-methods
+#' @aliases weakConsistency,FuzzyPairwiseComparisonMatrix-method
 setMethod(
   f="weakConsistency",
   signature(PairwiseComparisonMatrix = "FuzzyPairwiseComparisonMatrix"),
@@ -69,6 +73,8 @@ setMethod(
   }
 )
 
+#' @rdname weakConsistency-methods
+#' @aliases weakConsistency,PairwiseComparisonMatrix-method
 setMethod(
   f="weakConsistency",
   signature(PairwiseComparisonMatrix = "PairwiseComparisonMatrix"),
@@ -88,6 +94,10 @@ setMethod(
     }
   }
 )
+
+
+
+
 
 setGeneric("weakConsistencyMethod",
            function(matrix) standardGeneric("weakConsistencyMethod"))

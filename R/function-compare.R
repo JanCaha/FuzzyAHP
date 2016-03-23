@@ -15,9 +15,13 @@
 #' a \code{"matrix"} with two values in case of \code{"possibilityTheory"}.
 #'
 #' @export
+#' @rdname compareFuzzyNumbers-methods
+#' @name compareFuzzyNumbers
 setGeneric("compareFuzzyNumbers",
            function(fuzzyData, type) standardGeneric("compareFuzzyNumbers"))
 
+#' @rdname compareFuzzyNumbers-methods
+#' @aliases compareFuzzyNumbers,FuzzyData,character-method
 setMethod(
   f="compareFuzzyNumbers",
   signature(fuzzyData = "FuzzyData", type = "character"),
@@ -31,6 +35,8 @@ setMethod(
     if(!(type == "Chen" || type == "possibilityTheory" )){
       stop("Type of comparion must be specified to either Chen or possibilityTheory!")
     }
+
+    numberRows = length(fuzzyData@fnMin)
 
     if(type == "Chen"){
       minMin = min(fuzzyData@fnMin[,1], na.rm = TRUE)

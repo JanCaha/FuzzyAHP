@@ -61,8 +61,6 @@ setClass(
                    "the value ", max(object@values), " was found.", sep = ""))
     }
 
-    max(comparisonMatrix)
-
     # OK
     return(TRUE)
   }
@@ -93,9 +91,13 @@ setClass(
 #' comparisonMatrix = matrix(comparisonMatrixValues, nrow = 3, ncol = 3, byrow = TRUE)
 #' matrix = pairwiseComparisonMatrix(comparisonMatrix)
 #'
+#' @rdname pairwiseComparisonMatrix-methods
+#' @name pairwiseComparisonMatrix
 setGeneric("pairwiseComparisonMatrix",
            function(matrix) standardGeneric("pairwiseComparisonMatrix"))
 
+#' @rdname pairwiseComparisonMatrix-methods
+#' @aliases pairwiseComparisonMatrix,matrix-method
 setMethod(
   f="pairwiseComparisonMatrix",
   signature(matrix = "matrix"),

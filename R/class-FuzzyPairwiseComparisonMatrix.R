@@ -43,12 +43,13 @@ setClass(
 #' @return Object of class \linkS4class{FuzzyPairwiseComparisonMatrix}
 #'
 #' @export
-#'
-#' @include class-PairwiseComparisonMatrix.R
-#'
+#' @rdname fuzzyPairwiseComparisonMatrix-methods
+#' @name fuzzyPairwiseComparisonMatrix
 setGeneric("fuzzyPairwiseComparisonMatrix",
            function(pairwiseComparisonMatrix, ...) standardGeneric("fuzzyPairwiseComparisonMatrix"))
 
+#' @rdname fuzzyPairwiseComparisonMatrix-methods
+#' @param fuzzyScale A numeric vector that definies fuzzy scale.
 setMethod(
   f="fuzzyPairwiseComparisonMatrix",
   signature(pairwiseComparisonMatrix = "PairwiseComparisonMatrix"),
