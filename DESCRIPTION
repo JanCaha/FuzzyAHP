@@ -10,6 +10,7 @@ Authors@R: c(person("Jan", "Caha", email = "jan.caha@outlook.com",
 Maintainer: Jan Caha <jan.caha@outlook.com>
 Description: Package for calculation of AHP (both classic and fuzzy) based on
     Saaty's pairwise comparison method for determination of weights.
+Encoding: UTF-8
 Depends:
     R (>= 3.0.0),
     methods
