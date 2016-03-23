@@ -19,8 +19,7 @@
 #' @name FuzzyAHP-package
 #' @docType package
 #' @import methods
-#' @author Jan Caha \email{jan.caha@@outlook.com},\cr
-#'  with contributions from Aneta Drážná
+#' @author Jan Caha \email{cahik@@atlas.cz}, with contributions from Aneta Drážná
 #'
 #' @encoding UTF-8
 invisible(NULL)

@@ -7,7 +7,7 @@ Authors@R: c(person("Jan", "Caha", email = "jan.caha@outlook.com",
   role = c("aut", "cre")),
   person("Aneta", "Drážná", email = "",
   role = c("ctb", "com")))
-Maintainer: Jan Caha <jan.caha@outlook.com>
+Maintainer: Jan Caha <cahik@atlas.cz>
 Description: Package for calculation of AHP (both classic and fuzzy) based on
     Saaty's pairwise comparison method for determination of weights.
 Encoding: UTF-8
