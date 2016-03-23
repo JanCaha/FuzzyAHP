@@ -1,3 +1,3 @@
 require("testthat")
 library("FuzzyAHP")
-test_dir("devel/tests/")
+test_dir("tests/testthat/")
