@@ -21,6 +21,11 @@ To cite this package use:
 ```{r}
 citation("FuzzyAHP")
 ```
+
+## Source
+
+The source code for this package is available from: https://github.com/JanCaha/FuzzyAHP.
+
 ## See also
 
 **R** package **ahp** provides classical implementation of AHP based on pairwise comparison of both criteria and alternatives. The package is available from http://cran.r-project.org/package=ahp
