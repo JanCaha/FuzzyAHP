@@ -1,0 +1,189 @@
+---
+title: "Examples of FuzzyAHP package application (ver. `r packageDescription('FuzzyAHP')$Version`)"
+author: "Jan Caha, Aneta Drážná"
+date: '`r Sys.time()`'
+output:
+  rmarkdown::html_vignette:
+    toc: TRUE
+bibliography: ahp-bibliography.bib
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Examples of FuzzyAHP package application}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r setup, include=FALSE}
+options(width=120)
+library(FuzzyAHP)
+```
+
+# Introduction
+
+The package consists several S4 objects that are used in set of functions. For each object various validation conditions are checked in order to ensure that objects are valid and that their usage in functions will provide valid result. Each problem that can occur is described as best as possible in the error message which should help with solving the issue.
+
+# AHP (non fuzzy)
+
+## Pairwise Comparison Matrix Creation
+
+The pairwise comparison matrix can either be loaded from a file or inputed manually. Either way the values in the matrix need to represented as character. The matrix needs to be squared reciprocal matrix with maximal value smaller or equall to 9.
+
+The matrix in text file can have the following form.
+```
+;"crit1";"crit2";"crit3"
+"crit1";"1";"9";"5" 
+"crit2";"1/9";"1";"1/3"
+"crit3";"1/5";"3";"1"
+```
+The loading is then done as:
+```{r, eval = FALSE}
+matrixFile =  "comparison_matrix.csv"
+comparisonMatrix = read.csv(matrixFile, sep = ";",
+                   stringsAsFactors = FALSE, header = TRUE, row.names = 1, strip.white = TRUE)
+comparisonMatrix = as.matrix(comparisonMatrix)
+```
+If the matrix is inputed manually then it can be done by following commands:
+```{r}
+comparisonMatrixValues = c("1","9","5",
+                       "1/9","1","1/3",
+                       "1/5","3","1")
+comparisonMatrix = matrix(comparisonMatrixValues, nrow = 3, ncol = 3, byrow = TRUE)
+```
+Either way the comparsion matrix is created using command pairwiseComparisonMatrix. After printing we can see that the S4 object contains two representation of the matrix, One as characters and other one as numeric.
+
+```{r}
+comparisonMatrix = pairwiseComparisonMatrix(comparisonMatrix)
+print(comparisonMatrix)
+```
+
+### Testing consistency of Pairwise Comparison Matrix
+
+There are three consistency checks impelemnted in FuzzyAHP package. The first is consistency ratio as defined by [@Saaty1980]. The functions output short message summarizing the calculation and provides value of the consistency ratio.
+
+```{r}
+CR = consistencyRatio(comparisonMatrix)
+```
+
+
+
+Another check is a weak consistency that checks if for $a_{ij}>1$ and $a_{jk}>1$ applies that $a_{ik}>\max(a_{ij},a_{jk})$ for every $i,j,k = 1,2,\dots,n$, where $n$ is a size of matrix $a$. The functions returns TRUE if the matrix passes the test or FALSE if it fails and print short message (warning message summarazing the issues, if they exist, is printed as well).
+
+```{r}
+weakConsistency = weakConsistency(comparisonMatrix)
+```
+
+Strict consistency is much stronger prerequsion that is generally true only for absolutely consistent evaluator. It might be problematic to fulfill this codition for more complex matricies. However, it seems reasonable to try this verification just to study the outcome. The strict consistency checks that $a_{ik} = a_{ij} \times a_{jk}$ for every $i,j,k = 1,2,\dots,n$, where $n$ is a size of matrix $a$. Again TRUE or FALSE value is returned along with short message.
+
+```{r}
+strictConsistency = strictConsistency(comparisonMatrix)
+```
+
+Both consistencies are described by Basile and D'Apuzzo[-@Basile1997].
+
+## Calculations with Pairwise Comparison Matrix
+
+If the matrix is consistent for calculation accoring to users conditions subsequent calculations can be made. First step is obtaining weights of criteria. The weights are calculated as geometric mean of each row of the pairwise comparison matrix.
+
+```{r}
+weights = calculateWeights(comparisonMatrix)
+print(weights)
+```
+
+To calculate the AHP some data are needed. As mentioned in the description the FuzzyAHP package is prepared for data that uses scale (categorical) ranking of alternatives (the higher the value the better). In order to calculate AHP we need matrix of data that has the same number of colums as there are weights.
+
+```{r}
+values = c(4,5,3,
+1,3,9,
+8,6,4,
+3,2,7,
+6,7,5,
+4,5,3)
+values = matrix(values, nrow = length(values)/length(weights@weights), ncol = length(weights@weights), byrow = TRUE)
+```
+
+Now we can calculate the result according to the weights. The values with higher resulting value are better solutions of the AHP problem.
+
+```{r}
+result = calculateAHP(weights, values)
+print(result)
+```
+
+If we wan to rank solutions from the best to the worst, we can do that.
+
+```{r}
+rank = (nrow(result)+1) - rank(result, na.last = FALSE, ties.method= "max")
+print(rank)
+```
+It is also possible to put the results together to produce better outcome.
+```{r}
+result = cbind(values, result, rank)
+colnames(result) = c("crit1", "crit2", "crit3", "result_value", "ranking")
+print(result)
+```
+
+Obviously, since AHP is a hierarchical process the result from one calculation can be merged with outcomes from another calculation (ie. using cbind command) and used as input to another AHP calculation.
+
+# Fuzzy AHP
+
+## Fuzzy Pairwise Comparison Matrix Creation
+
+The fuzzy pairwise comparison matrix is an extended version of pairwise comparison matrix constructed with respect to fuzzy scale. Details about fuzzy AHP are provided in several articles by @Laarhoven1983 and @Chang1996.
+
+```{r}
+comparisonMatrixValues = c("1","9","5",
+                       "1/9","1","1/3",
+                       "1/5","3","1")
+comparisonMatrix = matrix(comparisonMatrixValues, nrow = 3, ncol = 3, byrow = TRUE)
+comparisonMatrix = pairwiseComparisonMatrix(comparisonMatrix)
+```
+
+Due to the fact, that checking of fuzzy comparsion matrix consistency is relatively complicated, it is simpler to check the non fuzzy matrix and assume that if non fuzzy matrix is consistend than so is the fuzzy matrix. The checks are described above.
+
+The comparison matrix is fuzzified with respect to the fuzzy scale. Default fuzzy scale ranging from 1 to 9 with width of fuzzy number equal to 2 is provided. However, user can specify his own fuzzy scale. For the details please see documentation.
+
+```{r}
+fuzzyComparisonMatrix = fuzzyPairwiseComparisonMatrix(comparisonMatrix)
+```
+
+## Calculations with Fuzzy Pairwise Comparison Matrix
+
+With the fuzzy comparion matrix the result of AHP process can be calculated in the same way as with classic comparison matrix.
+
+```{r}
+result = calculateAHP(fuzzyComparisonMatrix, values)
+```
+
+The resulting values have issue of representing uncertaint value. Such values are hard to present to user directly. Even though it is possible. The user can extract singe fuzzy numbers from the set.
+
+```{r}
+fuzzyNumer = getFuzzyNumber(result, as.integer(2))
+print(fuzzyNumer)
+```
+
+It might be reasonable for user to either defuzzify the values into single output or rank then using fuzzy ranking methods. Defuzzification can be done using several approaches, here Yager's index is used as described by @Tesfamariam2006. The results of defuzzification can be ranked as classic results of AHP.
+
+```{r}
+defuzzified = defuzziffy(result, "Yager")
+print(defuzzified)
+rank = (nrow(values)+1) - rank(defuzzified, na.last = FALSE, ties.method= "max")
+print(rank)
+```
+
+Ranking of fuzzy numbers can be done using various approaches. One of them is Chen's method described by @Tesfamariam2006.
+
+```{r}
+ranked = compareFuzzyNumbers(result, "Chen")
+print(ranked)
+```
+
+Another possibility is the utilization of possibility theory as described by @Dubois1983. These indices work very well if there is a relatively bigger set of very good solutions. Unlike defuzzification or other methods these indices can rank them very well. However, if there is only one dominant best solution the result might not be very descriptive.
+
+For large datasets the calculation might take a while. Because of that a graphical progressbar is printed.
+
+```{r, results = "hide"}
+ranked = compareFuzzyNumbers(result, "possibilityTheory")
+```
+
+```{r}
+print(ranked)
+```
+## References

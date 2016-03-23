@@ -1,0 +1,27 @@
+---
+title: "Information about FuzzyAHP package for R (ver. `r packageDescription('FuzzyAHP')$Version`)"
+author: "Jan Caha, Aneta Drážná"
+date: "`r Sys.time()`"
+output: 
+  html_vignette:
+    toc: TRUE
+bibliography: ahp-bibliography.bib
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Vignette Title}
+  \usepackage[utf8]{inputenc}
+---
+## Basic Info
+
+**FuzzyAHP** is an **R** package for calculation of both classic and fuzzy AHP. The package is only suitable for AHP that uses categorical rating of criteria for alternatives instead of pairwise comparison of alternatives according to each criteria. This adaptation of AHP is common in situations when the number of alternatives is hight and the pairwise comparison is thus inadequate or impossible to construct. The weights for criteria are, however, still determined from the pairwise comparison matrix. This approach towards AHP is common in Geosciences as well as other fields (please see References for examples).
+
+## See also
+
+**R** package **ahp** provides classical implementation of AHP based on pairwise comparison of both criteria and alternatives. The package is available from http://cran.r-project.org/package=ahp
+
+---
+nocite: | 
+  @Bathrellos2012, @Boroushaki2008, @Chen2010, @Dai2001, @Feizizadeh2013, @Gorsevski2012, @Sinha2014, @Wang2009, @Wang2008a
+---
+
+## References
