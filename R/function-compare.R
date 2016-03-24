@@ -22,7 +22,7 @@ setGeneric("compareFuzzyNumbers",
 
 #' @rdname compareFuzzyNumbers-methods
 #' @aliases compareFuzzyNumbers,FuzzyData,character-method
-#' @importMethodsFrom utils setTxtProgressBar txtProgressBar
+#' @importFrom utils setTxtProgressBar txtProgressBar
 setMethod(
   f="compareFuzzyNumbers",
   signature(fuzzyData = "FuzzyData", type = "character"),
@@ -91,7 +91,7 @@ setMethod(
             result[i,1] = 1
           }
           else{
-            result[i,1] = intersectionY(
+            result[i,1] = .intersectionY(
               fuzzyData@fnMax[i,], 0,
               fuzzyData@fnModal[i,], 1,
               maxModal, 1,
@@ -106,7 +106,7 @@ setMethod(
             result[i,2] = 1
           }
           else{
-            result[i,2] = intersectionY(
+            result[i,2] = .intersectionY(
               fuzzyData@fnModal[i,], 0,
               fuzzyData@fnMin[i,], 1,
               maxModal, 1,
@@ -123,11 +123,11 @@ setMethod(
   }
 )
 
-setGeneric("intersectionY",
-          function(x1,y1,x2,y2,x3,y3,x4,y4) standardGeneric("intersectionY"))
+setGeneric(".intersectionY",
+          function(x1,y1,x2,y2,x3,y3,x4,y4) standardGeneric(".intersectionY"))
 
 setMethod(
-  "intersectionY",
+  ".intersectionY",
   signature(x1 = "numeric", y1 = "numeric", x2 = "numeric", y2 = "numeric",
             x3 = "numeric", y3 = "numeric", x4 = "numeric", y4  = "numeric"),
   function (x1,y1,x2,y2,x3,y3,x4,y4)

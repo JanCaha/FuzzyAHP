@@ -24,7 +24,7 @@ setMethod(
   definition=function(PairwiseComparisonMatrix)
   {
 
-    violationText = weakConsistencyMethod(PairwiseComparisonMatrix@fnModal)
+    violationText = .weakConsistencyMethod(PairwiseComparisonMatrix@fnModal)
 
     if (violationText != "") {
       warning(paste("Fuzzy comparison matrix isn't consistent. These indeces violate the condition: \n", violationText, sep = ""),
@@ -35,41 +35,6 @@ setMethod(
       cat("The fuzzy comparison matrix is weakly consistent. \n")
       return(TRUE)
     }
-
-#     violationText = ""
-#
-#     size = nrow(fuzzyPairwiseComparisonMatrix@fnModal)
-#
-#     for (i in 1:size){
-#       for (j in 1:size){
-#         for (k in 1:size){
-#
-#           if (fuzzyPairwiseComparisonMatrix@fnModal[i,j]>1 & fuzzyPairwiseComparisonMatrix@fnModal[j,k]>1){
-#             if(fuzzyPairwiseComparisonMatrix@fnModal[i,k]<max(fuzzyPairwiseComparisonMatrix@fnModal[i,j],fuzzyPairwiseComparisonMatrix@fnModal[j,k])){
-#
-#               violation = TRUE
-#               text = paste("[",i,",",k,"] < max([",i,",",j,"],[",j,",",k,"]) -- ",
-#                            fuzzyPairwiseComparisonMatrix@fnModal[i,k]," < max(",
-#                            fuzzyPairwiseComparisonMatrix@fnModal[i,j],",",
-#                            fuzzyPairwiseComparisonMatrix@fnModal[j,k],")","\n", sep = "")
-#               violationText = paste(violationText, text, sep = "")
-#             }
-#           }
-#
-#         }
-#       }
-#     }
-#
-#     if (violation) {
-#       warning(paste("Fuzzy comparison matrix isn't consistent. These indeces violate the condition: \n", violationText, sep = ""),
-#               call. = FALSE)
-#       return(FALSE)
-#     }
-#     else{
-#       cat("The fuzzy comparison matrix is consistent. \n")
-#       return(TRUE)
-#     }
-
   }
 )
 
@@ -81,7 +46,7 @@ setMethod(
   definition=function(PairwiseComparisonMatrix)
   {
 
-    violationText = weakConsistencyMethod(PairwiseComparisonMatrix@values)
+    violationText = .weakConsistencyMethod(PairwiseComparisonMatrix@values)
 
     if (violationText != "") {
       warning(paste("Comparison matrix isn't consistent. These indeces violate the condition: \n", violationText, sep = ""),
@@ -99,11 +64,11 @@ setMethod(
 
 
 
-setGeneric("weakConsistencyMethod",
-           function(matrix) standardGeneric("weakConsistencyMethod"))
+setGeneric(".weakConsistencyMethod",
+           function(matrix) standardGeneric(".weakConsistencyMethod"))
 
 setMethod(
-  "weakConsistencyMethod",
+  ".weakConsistencyMethod",
   signature(matrix = "matrix"),
   function (matrix)
   {

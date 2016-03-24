@@ -23,7 +23,7 @@ setMethod(
   definition=function(PairwiseComparisonMatrix)
   {
 
-    violationText = strictConsistencyMethod(PairwiseComparisonMatrix@fnModal)
+    violationText = .strictConsistencyMethod(PairwiseComparisonMatrix@fnModal)
 
     if (violationText != "") {
       warning(paste("Fuzzy comparison matrix isn't strictly consistent. These indeces violate the condition: \n", violationText, sep = ""),
@@ -45,7 +45,7 @@ setMethod(
   definition=function(PairwiseComparisonMatrix)
   {
 
-    violationText = strictConsistencyMethod(PairwiseComparisonMatrix@values)
+    violationText = .strictConsistencyMethod(PairwiseComparisonMatrix@values)
 
     if (violationText != "") {
       warning(paste("Comparison matrix isn't strictly consistent. These indeces violate the condition: \n", violationText, sep = ""),
@@ -63,11 +63,11 @@ setMethod(
 
 
 
-setGeneric("strictConsistencyMethod",
-           function(matrix) standardGeneric("strictConsistencyMethod"))
+setGeneric(".strictConsistencyMethod",
+           function(matrix) standardGeneric(".strictConsistencyMethod"))
 
 setMethod(
-  "strictConsistencyMethod",
+  ".strictConsistencyMethod",
   signature(matrix = "matrix"),
   function (matrix)
   {
