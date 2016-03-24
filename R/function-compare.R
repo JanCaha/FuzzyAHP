@@ -22,6 +22,7 @@ setGeneric("compareFuzzyNumbers",
 
 #' @rdname compareFuzzyNumbers-methods
 #' @aliases compareFuzzyNumbers,FuzzyData,character-method
+#' @importMethodsFrom utils setTxtProgressBar txtProgressBar
 setMethod(
   f="compareFuzzyNumbers",
   signature(fuzzyData = "FuzzyData", type = "character"),
