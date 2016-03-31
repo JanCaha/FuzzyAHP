@@ -36,9 +36,9 @@ setClass(
 #' possibility is eg. \code{as.double(c(1/3,1,3,1,3,5,3,5,7,5,7,9,7,9,9))}
 #'
 #' @param pairwiseComparisonMatrix \linkS4class{PairwiseComparisonMatrix}.
-#' @param ... Place to pass fuzzyScale
+#' @param fuzzyScale A numeric vector that definies fuzzy scale. Default scale is described in details.
 #'
-#' @usage fuzzyPairwiseComparisonMatrix(pairwiseComparisonMatrix, ...)
+#' @usage fuzzyPairwiseComparisonMatrix(pairwiseComparisonMatrix, fuzzyScale)
 #'
 #' @return Object of class \linkS4class{FuzzyPairwiseComparisonMatrix}
 #'
@@ -46,14 +46,8 @@ setClass(
 #' @rdname fuzzyPairwiseComparisonMatrix-methods
 #' @name fuzzyPairwiseComparisonMatrix
 setGeneric("fuzzyPairwiseComparisonMatrix",
-           function(pairwiseComparisonMatrix, ...) standardGeneric("fuzzyPairwiseComparisonMatrix"))
-
-#' @rdname fuzzyPairwiseComparisonMatrix-methods
-#' @param fuzzyScale A numeric vector that definies fuzzy scale.
-setMethod(
-  f="fuzzyPairwiseComparisonMatrix",
-  signature(pairwiseComparisonMatrix = "PairwiseComparisonMatrix"),
-  definition=function(pairwiseComparisonMatrix, fuzzyScale = as.double(c(1/2,1,2,
+           signature = c("pairwiseComparisonMatrix"),
+           function(pairwiseComparisonMatrix, fuzzyScale = as.double(c(1/2,1,2,
                                                                          1,2,3,
                                                                          2,3,4,
                                                                          3,4,5,
@@ -62,7 +56,14 @@ setMethod(
                                                                          6,7,8,
                                                                          7,8,9,
                                                                          8,9,9))
-                      )
+                    ) standardGeneric("fuzzyPairwiseComparisonMatrix"))
+
+#' @rdname fuzzyPairwiseComparisonMatrix-methods
+#' @aliases fuzzyPairwiseComparisonMatrix,PairwiseComparisonMatrix,fuzzyScale-method
+setMethod(
+  f="fuzzyPairwiseComparisonMatrix",
+  signature(pairwiseComparisonMatrix = "PairwiseComparisonMatrix"),
+  definition=function(pairwiseComparisonMatrix, fuzzyScale)
   {
 
     if(!(length(fuzzyScale)%%3==0)){

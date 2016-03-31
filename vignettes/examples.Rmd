@@ -177,10 +177,11 @@ print(ranked)
 
 Another possibility is the utilization of possibility theory as described by @Dubois1983. These indices work very well if there is a relatively bigger set of very good solutions. Unlike defuzzification or other methods these indices can rank them very well. However, if there is only one dominant best solution the result might not be very descriptive.
 
-For large datasets the calculation might take a while. Because of that a graphical progressbar is printed.
+For large datasets the calculation might take a while. Because of that a graphical progressbar can be printed if it is turn on by progressBar parameter.
 
 ```{r, results = "hide"}
 ranked = compareFuzzyNumbers(result, "possibilityTheory")
+# ranked = compareFuzzyNumbers(result, "possibilityTheory", progressBar = TRUE)
 ```
 
 ```{r}

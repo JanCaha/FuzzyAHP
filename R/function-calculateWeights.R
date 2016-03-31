@@ -84,6 +84,6 @@ setMethod(
 #
 #     row.names(weights) = rNames
 
-    return (new("FuzzyWeights", fnMin = wMin, fnModal = wModal, fnMax = wModal))
+    return (new("FuzzyWeights", fnMin = wMin, fnModal = wModal, fnMax = wMax))
   }
 )

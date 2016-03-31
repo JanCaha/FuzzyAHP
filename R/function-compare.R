@@ -10,6 +10,7 @@
 #' @param fuzzyData A \code{\linkS4class{FuzzyData}}
 #' @param type A \code{"character"} representing type of comparison. Currently implemented methods are
 #' \code{"Chen"} and \code{"possibilityTheory"}.
+#' @param progressBar logical value indicating if textual progress bar should be printed (default value \code{FALSE})
 #'
 #' @return A \code{"matrix"} of numeric value in case of \code{"Chen"} method or
 #' a \code{"matrix"} with two values in case of \code{"possibilityTheory"}.
@@ -18,7 +19,8 @@
 #' @rdname compareFuzzyNumbers-methods
 #' @name compareFuzzyNumbers
 setGeneric("compareFuzzyNumbers",
-           function(fuzzyData, type) standardGeneric("compareFuzzyNumbers"))
+           signature = c("fuzzyData","type"),
+           function(fuzzyData, type, progressBar = FALSE) standardGeneric("compareFuzzyNumbers"))
 
 #' @rdname compareFuzzyNumbers-methods
 #' @aliases compareFuzzyNumbers,FuzzyData,character-method
@@ -26,7 +28,7 @@ setGeneric("compareFuzzyNumbers",
 setMethod(
   f="compareFuzzyNumbers",
   signature(fuzzyData = "FuzzyData", type = "character"),
-  definition=function(fuzzyData, type)
+  definition=function(fuzzyData, type, progressBar)
   {
 
     if(ncol(fuzzyData@fnMin)>1){
@@ -50,7 +52,9 @@ setMethod(
       numberRows = nrow(fuzzyData@fnModal)
       result = matrix(NA, nrow = numberRows, ncol = 2)
 
-      pb = txtProgressBar(min=0, max=1, initial = 0, style = 3)
+      if(progressBar){
+        pb = txtProgressBar(min=0, max=1, initial = 0, style = 3)
+      }
 
       gmaxMin = max(fuzzyData@fnMin[,1], na.rm = TRUE)
       gmaxModal = max(fuzzyData@fnModal[,1], na.rm = TRUE)
@@ -113,7 +117,10 @@ setMethod(
               maxMin, 0
             )
           }
-          setTxtProgressBar(pb, (i/numberRows))
+
+          if(progressBar){
+            setTxtProgressBar(pb, (i/numberRows))
+          }
         }
       }
       colnames(result) = c("possiblity", "necessity")
