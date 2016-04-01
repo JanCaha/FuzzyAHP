@@ -57,7 +57,7 @@ print(comparisonMatrix)
 
 ### Testing consistency of Pairwise Comparison Matrix
 
-There are three consistency checks impelemnted in FuzzyAHP package. The first is consistency ratio as defined by [@Saaty1980]. The functions output short message summarizing the calculation and provides value of the consistency ratio.
+There are three consistency checks impelemnted in FuzzyAHP package. The first is consistency ratio as defined by @Saaty1980. The functions output short message summarizing the calculation and provides value of the consistency ratio.
 
 ```{r}
 CR = consistencyRatio(comparisonMatrix)
@@ -77,7 +77,7 @@ Strict consistency is much stronger prerequsion that is generally true only for 
 strictConsistency = strictConsistency(comparisonMatrix)
 ```
 
-Both consistencies are described by Basile and D'Apuzzo[-@Basile1997].
+Both consistencies are described by @Basile1997.
 
 ## Calculations with Pairwise Comparison Matrix
 
@@ -147,7 +147,7 @@ print(fuzzyComparisonMatrix)
 
 ## Calculations with Fuzzy Pairwise Comparison Matrix
 
-With the fuzzy comparion matrix the result of AHP process can be calculated in the same way as with classic comparison matrix. The weights of fuzzy comparison matrix are calculated by approach desribed by [@Krejci2016].
+With the fuzzy comparion matrix the result of AHP process can be calculated in the same way as with classic comparison matrix. The weights of fuzzy comparison matrix are calculated by approach desribed by @Krejci2016.
 
 ```{r}
 result = calculateAHP(fuzzyComparisonMatrix, values)

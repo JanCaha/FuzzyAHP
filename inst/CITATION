@@ -9,5 +9,5 @@ bibentry(bibtype = "Manual",
                     ),
          year = year,
          note = note,
-         url = ""
+         url = "https://github.com/JanCaha/FuzzyAHP"
   )
