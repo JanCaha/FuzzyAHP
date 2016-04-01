@@ -50,39 +50,27 @@ setMethod(
   signature(comparisonMatrix="FuzzyPairwiseComparisonMatrix"),
   definition=function(comparisonMatrix)
   {
-    weightsCount = nrow(comparisonMatrix@fnMin)
+    p = nrow(comparisonMatrix@fnMin)
 
-    mMin = c()
-    mModal = c()
-    mMax = c()
-
-    for(i in 1:weightsCount){
-      mMin = append(mMin, prod(comparisonMatrix@fnMin[i,])^(1/weightsCount))   #append(mMin, gm_mean(AHPFuzzyMatrix@fnMin[i,]))
-      mModal = append(mModal, prod(comparisonMatrix@fnModal[i,])^(1/weightsCount))  #append(mModal, gm_mean(AHPFuzzyMatrix@fnModal[i,]))
-      mMax = append(mMax, prod(comparisonMatrix@fnMax[i,])^(1/weightsCount))  #append(mMax, gm_mean(AHPFuzzyMatrix@fnMax[i,]))
-    }
-
-    # vzorec 3.11
     wMin = c()
     wModal = c()
     wMax = c()
 
-    for(i in 1:weightsCount){
-      wMin = append(wMin, (mMin[i])/(mMin[i] + sum(mMax[-i])))
-      wModal = append(wModal, (mModal[i])/(mModal[i] + sum(mModal[-i])))
-      wMax = append(wMax, (mMax[i])/(mMax[i] + sum(mMin[-i])))
-    }
+    for(i in 1:p){
+      limits = weightsLimits(comparisonMatrix,i)
+      wMin = append(wMin, limits[1])
+      wMax = append(wMax, limits[2])
 
-#     weights = cbind(wMin, wModal, wMax)
-#     colnames(weights) = c("weight_min","weight_modal","weight_max")
-#
-#
-#     rNames = c()
-#     for (i in 1:weightsCount){
-#       rNames = append(rNames, paste("w",i, sep = ""))
-#     }
-#
-#     row.names(weights) = rNames
+      sum = 0
+
+      for(k in 1:p){
+        sum = sum + prod(comparisonMatrix@fnModal[k,])^(1/p)
+      }
+
+      wM = ((prod(comparisonMatrix@fnModal[i,])^(1/p)) / sum)
+
+      wModal = append(wModal, wM)
+    }
 
     return (new("FuzzyWeights", fnMin = wMin, fnModal = wModal, fnMax = wMax))
   }

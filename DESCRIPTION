@@ -1,7 +1,7 @@
 Package: FuzzyAHP
 Type: Package
 Title: (Fuzzy) AHP Calculation
-Version: 0.5.2
+Version: 0.6.0
 Date: 2016-03-14
 Authors@R: c(person("Jan", "Caha", email = "cahik@atlas.cz",
   role = c("aut", "cre")),
@@ -33,6 +33,8 @@ Collate:
     'function-consistencyRatio.R'
     'function-defuzzify.R'
     'function-getFuzzyNumbers.R'
+    'function-internal-optimization.R'
+    'function-print.R'
     'function-strictConsistency.R'
     'function-weakConsistency.R'
     'package-FuzzyAHP.R'

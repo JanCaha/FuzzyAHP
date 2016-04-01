@@ -32,7 +32,7 @@ The source code for this package is available from: https://github.com/JanCaha/F
 
 ---
 nocite: | 
-  @Bathrellos2012, @Boroushaki2008, @Chen2010, @Dai2001, @Feizizadeh2013, @Gorsevski2012, @Sinha2014, @Wang2009, @Wang2008a
+  @Bathrellos2012, @Boroushaki2008, @Chen2010, @Dai2001, @Feizizadeh2013, @Gorsevski2012, @Krejci2016, @Sinha2014, @Wang2009, @Wang2008a
 ---
 
 ## References

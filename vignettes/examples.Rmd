@@ -142,11 +142,12 @@ The comparison matrix is fuzzified with respect to the fuzzy scale. Default fuzz
 
 ```{r}
 fuzzyComparisonMatrix = fuzzyPairwiseComparisonMatrix(comparisonMatrix)
+print(fuzzyComparisonMatrix)
 ```
 
 ## Calculations with Fuzzy Pairwise Comparison Matrix
 
-With the fuzzy comparion matrix the result of AHP process can be calculated in the same way as with classic comparison matrix.
+With the fuzzy comparion matrix the result of AHP process can be calculated in the same way as with classic comparison matrix. The weights of fuzzy comparison matrix are calculated by approach desribed by [@Krejci2016].
 
 ```{r}
 result = calculateAHP(fuzzyComparisonMatrix, values)
