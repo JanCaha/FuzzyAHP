@@ -1,15 +1,15 @@
 Package: FuzzyAHP
 Type: Package
 Title: (Fuzzy) AHP Calculation
-Version: 0.6.0
+Version: 0.6.1
 Date: 2016-03-14
 Authors@R: c(person("Jan", "Caha", email = "cahik@atlas.cz",
   role = c("aut", "cre")),
   person("Aneta", "Drážná", email = "",
   role = c("ctb", "com")))
-URL: https://github.com/JanCaha/FuzzyAHP
-Description: Package for calculation of AHP (both classic and fuzzy) based on
-    Saaty's pairwise comparison method for determination of weights.
+URL: http://github.com/JanCaha/FuzzyAHP/
+Description: Calculation of AHP (Analytic Hierarchy Process - <http://en.wikipedia.org/wiki/Analytic_hierarchy_process>)
+    with classic and fuzzy weights based on Saaty's pairwise comparison method for determination of weights.
 Encoding: UTF-8
 Depends:
     R (>= 3.0.0),
