@@ -46,3 +46,20 @@ print.FuzzyWeights <- function(x, ...){
   rownames(textMatrix) <- rowNames
   print(textMatrix)
 }
+
+#' @export
+print.FuzzyData <- function(x, ...){
+
+  textMatrix = matrix(data = "",  nrow = nrow(x@fnMin), ncol = ncol(x@fnMin))
+
+  for(i in 1:nrow(x@fnMin)){
+    for(j in 1:ncol(x@fnMin)){
+      textMatrix[i,j] = paste("(", round(x@fnMin[i,j], digits = 4), ";",
+                                   round(x@fnModal[i,j], digits = 4), ";",
+                                   round(x@fnMax[i,j], digits = 4), ")", sep = "")
+
+    }
+  }
+
+  print(textMatrix)
+}

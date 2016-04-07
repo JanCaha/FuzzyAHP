@@ -44,6 +44,9 @@ setClass(
 #' represent minimal, modal and maximal value of fuzzy number.
 #'
 #' @param data A \code{matrix} with 3 colums.
+#' @param single.value An optional boolean parameter specifying if the data to be turn into fuzzy data
+#' is single vector of fuzzy numbers (then it needs to have 3 colums) or if the whole matrix needs to
+#' be turn into fuzzy values.
 #'
 #' @return An object of class \code{\linkS4class{FuzzyData}}
 #' @export
@@ -53,19 +56,29 @@ setClass(
 #' @rdname fuzzyData-methods
 #' @name fuzzyData
 setGeneric("fuzzyData",
-           function(data) standardGeneric("fuzzyData"))
+           function(data, single.value = TRUE) standardGeneric("fuzzyData"))
 
 #' @rdname fuzzyData-methods
 #' @aliases fuzzyData,matrix-method
 setMethod(
   f="fuzzyData",
   signature(data = "matrix"),
-  definition=function(data)
+  definition=function(data, single.value)
   {
-    if(ncol(data)!=3){
-      stop("Input dataset has to have three colums!")
+
+    if(typeof(single.value)!="logical"){
+      stop("Parameter single.value is not of type logical.")
     }
 
-    return(new("FuzzyData", fnMin = matrix[,1], fnModal = matrix[,2], fnMax = matrix[,3]))
+    if (single.value) {
+      if(ncol(data)!=3){
+        stop("Input dataset has to have three colums!")
+      }
+
+      return(new("FuzzyData", fnMin = data[,1], fnModal = data[,2], fnMax = data[,3]))
+    }else{
+      return(new("FuzzyData", fnMin = data, fnModal = data, fnMax = data))
+    }
+
   }
 )
