@@ -2,7 +2,8 @@ require("testthat")
 
 test_that("Tests of fuzzy AHP calculation", {
 
-  folder = "./" # ./tests/testthat/
+  folder = "./"
+  # folder = "./tests/testthat/"
   file = "testing_pairwise_comparison_matrix.txt"
 
   comparisonMatrix = read.csv(paste(folder, file, sep = ""), sep = ";",
@@ -12,19 +13,15 @@ test_that("Tests of fuzzy AHP calculation", {
 
   comparisonMatrix = pairwiseComparisonMatrix(comparisonMatrix)
 
-  #print(comparisonMatrix)
-
-  CR = consistencyRatio(comparisonMatrix)
-
-  #print(calculateWeights(comparisonMatrix))
+  CR = consistencyRatio(comparisonMatrix, print.report = FALSE)
 
   fuzzyComparisonMatrix = fuzzyPairwiseComparisonMatrix(comparisonMatrix)
 
-  #print(fuzzyComparisonMatrix)
+  CRF = consistencyRatio(fuzzyComparisonMatrix, print.report = FALSE)
+
+  expect_equal(CR, CRF, tolerance = 1e-07)
 
   weights = calculateWeights(fuzzyComparisonMatrix)
-
-  #print(weights)
 
   expect_is(fuzzyComparisonMatrix, "FuzzyPairwiseComparisonMatrix")
   expect_is(weights, "FuzzyWeights")
