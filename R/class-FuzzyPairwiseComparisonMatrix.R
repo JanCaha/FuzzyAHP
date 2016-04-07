@@ -4,6 +4,7 @@
 #' @slot fnMin A matrix of minimal values of fuzzy preferences.
 #' @slot fnModal A matrix of modal values of fuzzy preferences.
 #' @slot fnMax A matrix of maximal values of fuzzy preferences.
+#' @slot variableNames Names of variables in the pariwise comparison matrix obtained either as colnames or rownames.
 #'
 #' @export
 #' @include class-PairwiseComparisonMatrix.R
@@ -14,7 +15,8 @@ setClass(
   representation(
     fnMin = "matrix",
     fnModal = "matrix",
-    fnMax = "matrix"
+    fnMax = "matrix",
+    variableNames = "character"
   )
 )
 
@@ -126,6 +128,6 @@ setMethod(
       }
     }
 
-    return(new("FuzzyPairwiseComparisonMatrix", fnMin = fnMin, fnModal = fnModal, fnMax = fnMax))
+    return(new("FuzzyPairwiseComparisonMatrix", fnMin = fnMin, fnModal = fnModal, fnMax = fnMax, variableNames = pairwiseComparisonMatrix@variableNames))
   }
 )

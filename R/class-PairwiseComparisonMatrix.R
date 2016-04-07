@@ -4,6 +4,7 @@
 #'
 #' @slot valuesChar A pairwise comparison matrix based on Saaty's method as characters.
 #' @slot values A pairwise comparison matrix based on Saaty's method as numeric.
+#' @slot variableNames Names of variables in the pariwise comparison matrix obtained either as colnames or rownames.
 #'
 #' @export
 setClass(
@@ -11,7 +12,8 @@ setClass(
 
   representation(
     valuesChar = "matrix",
-    values = "matrix"
+    values = "matrix",
+    variableNames = "character"
   ),
   validity=function(object)
   {
@@ -118,6 +120,14 @@ setMethod(
       }
     }
 
-    return(new("PairwiseComparisonMatrix", valuesChar = matrix, values = values))
+    if(length(colnames(matrix))>0){
+      variableNames = colnames(matrix)
+    }else if(length(rownames(matrix))>0){
+      variableNames = rownames(matrix)
+    }else{
+      variableNames = NA_character_
+    }
+
+    return(new("PairwiseComparisonMatrix", valuesChar = matrix, values = values, variableNames = variableNames))
   }
 )
