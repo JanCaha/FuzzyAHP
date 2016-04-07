@@ -36,6 +36,7 @@ Collate:
     'function-consistencyRatio.R'
     'function-defuzzify.R'
     'function-getFuzzyNumbers.R'
+    'function-insertInto.R'
     'function-internal-optimization.R'
     'function-print.R'
     'function-strictConsistency.R'
