@@ -5,6 +5,8 @@
 #'
 #' @param PairwiseComparisonMatrix A \linkS4class{FuzzyPairwiseComparisonMatrix} or
 #' \linkS4class{PairwiseComparisonMatrix}.
+#' @param print.report Optional boolean parameter stating if short report should be printed along with determination
+#' of Weak Consistency. Default value is \code{TRUE}.
 #'
 #' @return Boolean value indicating if Comparison Matrix passed the weak consistency test and a warning message
 #' listing the problematic triplets if the matrix is not consisten.
@@ -13,25 +15,30 @@
 #' @rdname strictConsistency-methods
 #' @name strictConsistency
 setGeneric("strictConsistency",
-           function(PairwiseComparisonMatrix) standardGeneric("strictConsistency"))
+           function(PairwiseComparisonMatrix, print.report = TRUE) standardGeneric("strictConsistency"))
 
 #' @rdname strictConsistency-methods
 #' @aliases strictConsistency,FuzzyPairwiseComparisonMatrix-method
 setMethod(
   f="strictConsistency",
   signature(PairwiseComparisonMatrix = "FuzzyPairwiseComparisonMatrix"),
-  definition=function(PairwiseComparisonMatrix)
+  definition=function(PairwiseComparisonMatrix, print.report)
   {
 
     violationText = .strictConsistencyMethod(PairwiseComparisonMatrix@fnModal)
 
     if (violationText != "") {
-      warning(paste("Fuzzy comparison matrix isn't strictly consistent. These indeces violate the condition: \n", violationText, sep = ""),
-              call. = FALSE)
+      if(print.report){
+        cat(paste("Fuzzy comparison matrix isn't strictly consistent. These indeces violate the condition: \n", violationText, sep = ""))
+        cat("\n")
+      }
       return(FALSE)
     }
     else{
-      cat("The fuzzy comparison matrix is strictly consistent. \n")
+      if(print.report){
+        cat("The fuzzy comparison matrix is strictly consistent. \n")
+        cat("\n")
+      }
       return(TRUE)
     }
   }
@@ -42,18 +49,23 @@ setMethod(
 setMethod(
   f="strictConsistency",
   signature(PairwiseComparisonMatrix = "PairwiseComparisonMatrix"),
-  definition=function(PairwiseComparisonMatrix)
+  definition=function(PairwiseComparisonMatrix, print.report)
   {
 
     violationText = .strictConsistencyMethod(PairwiseComparisonMatrix@values)
 
     if (violationText != "") {
-      warning(paste("Comparison matrix isn't strictly consistent. These indeces violate the condition: \n", violationText, sep = ""),
-              call. = FALSE)
+      if(print.report){
+        cat(paste("Comparison matrix isn't strictly consistent. These indeces violate the condition: \n", violationText, sep = ""))
+        cat("\n")
+      }
       return(FALSE)
     }
     else{
-      cat("The comparison matrix is strictly consistent. \n")
+      if(print.report){
+        cat("The comparison matrix is strictly consistent. \n")
+        cat("\n")
+      }
       return(TRUE)
     }
   }
