@@ -11,7 +11,16 @@
 #'
 #' @return An object of class \code{\linkS4class{FuzzyData}}
 #'
-#' @usage
+#' @export
+#' @rdname insertInto-methods
+#' @name insertInto
+setGeneric("insertInto",
+           function(data1, data2, index) standardGeneric("insertInto"))
+
+#' @rdname insertInto-methods
+#' @aliases insertInto,FuzzyData,FuzzyData,integer-method
+#'
+#' @examples
 #' values = (c(1,2,3,4,5,6,7,8,9))
 #' values = matrix(values, nrow = 3, ncol = 3, byrow = TRUE)
 #' fData = fuzzyData(values, single.value = FALSE)
@@ -22,14 +31,6 @@
 #'
 #' fData = insertInto(fData, fd, 2)
 #'
-#' @export
-#' @rdname insertInto-methods
-#' @name insertInto
-setGeneric("insertInto",
-           function(data1, data2, index) standardGeneric("insertInto"))
-
-#' @rdname insertInto-methods
-#' @aliases insertInto,FuzzyData,FuzzyData,integer-method
 setMethod(
   f= "insertInto",
   signature(data1 = "FuzzyData", data2 = "FuzzyData"),

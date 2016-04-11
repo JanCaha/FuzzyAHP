@@ -26,5 +26,3 @@ test_that("Tests of fuzzy AHP calculation", {
   expect_is(fuzzyComparisonMatrix, "FuzzyPairwiseComparisonMatrix")
   expect_is(weights, "FuzzyWeights")
 })
-
-
