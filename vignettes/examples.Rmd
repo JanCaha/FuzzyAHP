@@ -25,7 +25,7 @@ The package consists several S4 objects that are used in set of functions. For e
 
 ## Pairwise Comparison Matrix Creation
 
-The pairwise comparison matrix can either be loaded from a file or inputed manually. Either way the values in the matrix need to represented as character. The matrix needs to be squared reciprocal matrix with maximal value smaller or equall to 9.
+The pairwise comparison matrix can either be loaded from a file or inputed manually. Since the version 0.6.9 the values can be represented as either character or double. However, the character representation seem as slightly better idea because it allows printing more comprehensible output. The matrix needs to be squared reciprocal matrix with maximal value smaller or equall to 9.
 
 The matrix in text file can have the following form.
 ```
@@ -43,9 +43,16 @@ comparisonMatrix = as.matrix(comparisonMatrix)
 ```
 If the matrix is inputed manually then it can be done by following commands:
 ```{r}
+comparisonMatrixValues = c(1,9,5,
+                           1/9,1,1/3,
+                           1/5,3,1)
+comparisonMatrix = matrix(comparisonMatrixValues, nrow = 3, ncol = 3, byrow = TRUE)
+```
+In the case that the values are represented as double. If the values are represented as character then the code looks like this:
+```{r}
 comparisonMatrixValues = c("1","9","5",
-                       "1/9","1","1/3",
-                       "1/5","3","1")
+                           "1/9","1","1/3",
+                           "1/5","3","1")
 comparisonMatrix = matrix(comparisonMatrixValues, nrow = 3, ncol = 3, byrow = TRUE)
 ```
 Either way the comparsion matrix is created using command pairwiseComparisonMatrix. After printing we can see that the S4 object contains two representation of the matrix, One as characters and other one as numeric.
@@ -57,7 +64,7 @@ print(comparisonMatrix)
 
 ### Testing consistency of Pairwise Comparison Matrix
 
-There are three consistency checks impelemnted in FuzzyAHP package. The first is consistency ratio as defined by @Saaty1980. The functions output short message summarizing the calculation and provides value of the consistency ratio.
+There are three consistency checks impelemnted in FuzzyAHP package. The first is consistency ratio as defined by @Saaty1980. The functions output short message summarizing the calculation and provides value of the consistency ratio. The consistency ration can be calculated for matrices with size up to $15 \times 15$ according to @Saaty2007.
 
 ```{r}
 CR = consistencyRatio(comparisonMatrix)
@@ -65,19 +72,17 @@ CR = consistencyRatio(comparisonMatrix)
 
 
 
-Another check is a weak consistency that checks if for $a_{ij}>1$ and $a_{jk}>1$ applies that $a_{ik}>\max(a_{ij},a_{jk})$ for every $i,j,k = 1,2,\dots,n$, where $n$ is a size of matrix $a$. The functions returns TRUE if the matrix passes the test or FALSE if it fails and print short message (warning message summarazing the issues, if they exist, is printed as well).
+Another check is a weak consistency that checks if for $a_{ij}>1$ and $a_{jk}>1$ applies that $a_{ik}>=\max(a_{ij},a_{jk})$ for every $i,j,k = 1,2,\dots,n$, where $n$ is a size of matrix $a$ [@Stoklasa2013]. The functions returns TRUE if the matrix passes the test or FALSE if it fails and print short message (warning message summarazing the issues, if they exist, is printed as well).
 
 ```{r}
 weakConsistency = weakConsistency(comparisonMatrix)
 ```
 
-Strict consistency is much stronger prerequsion that is generally true only for absolutely consistent evaluator. It might be problematic to fulfill this codition for more complex matricies. However, it seems reasonable to try this verification just to study the outcome. The strict consistency checks that $a_{ik} = a_{ij} \times a_{jk}$ for every $i,j,k = 1,2,\dots,n$, where $n$ is a size of matrix $a$. Again TRUE or FALSE value is returned along with short message.
+Strict consistency is much stronger prerequsion that is generally true only for absolutely consistent evaluator. It might be problematic to fulfill this codition for more complex matricies. However, it seems reasonable to try this verification just to study the outcome. The strict consistency checks that $a_{ik} = a_{ij} \times a_{jk}$ for every $i,j,k = 1,2,\dots,n$, where $n$ is a size of matrix $a$ [@Basile1997]. Again TRUE or FALSE value is returned along with short message.
 
 ```{r}
 strictConsistency = strictConsistency(comparisonMatrix)
 ```
-
-Both consistencies are described by @Basile1997.
 
 ## Calculations with Pairwise Comparison Matrix
 
@@ -90,13 +95,17 @@ print(weights)
 
 To calculate the AHP some data are needed. As mentioned in the description the FuzzyAHP package is prepared for data that uses scale (categorical) ranking of alternatives (the higher the value the better). In order to calculate AHP we need matrix of data that has the same number of colums as there are weights.
 
+Data that have even one element equal to NA are to taken into account at all, the result is automatically determined as NA. 
+
 ```{r}
 values = c(4,5,3,
 1,3,9,
 8,6,4,
 3,2,7,
 6,7,5,
-4,5,3)
+4,5,3,
+NA,9,9,
+NA,NA,NA)
 values = matrix(values, nrow = length(values)/length(weights@weights), ncol = length(weights@weights), byrow = TRUE)
 ```
 
@@ -110,7 +119,7 @@ print(result)
 If we wan to rank solutions from the best to the worst, we can do that.
 
 ```{r}
-rank = (nrow(result)+1) - rank(result, na.last = FALSE, ties.method= "max")
+rank = compareResults(result)
 print(rank)
 ```
 It is also possible to put the results together to produce better outcome.

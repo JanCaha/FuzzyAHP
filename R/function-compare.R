@@ -130,6 +130,47 @@ setMethod(
   }
 )
 
+
+
+
+
+#' Function to rank results
+#'
+#' @description
+#' This function ranks data from the highest value to the lowest. Essentially it does
+#' \code{(nrow(data)+1) - rank(data, na.last ="keep", ties.method= "max")}.
+#'
+#'
+#' @param data A matrix with one column. Usually an output of function \code{calculateAHP.}
+#'
+#' @return A \code{"matrix"} of numeric value that indicates ranking of each row, with the highest value ranked as 1.
+#'
+#' @export
+#' @rdname compareResults-methods
+#' @name compareResults
+setGeneric("compareResults",
+           function(data) standardGeneric("compareResults"))
+
+#' @rdname compareResults-methods
+#' @aliases compareResults,FuzzyData,character-method
+#' @importFrom utils setTxtProgressBar txtProgressBar
+setMethod(
+  f="compareResults",
+  signature(data = "matrix"),
+  definition=function(data)
+  {
+    if(ncol(data)>1){
+      stop("Comparing results is only possible for matrixes with one column.")
+    }
+
+    return((nrow(data)+1) - rank(data, na.last = "keep", ties.method= "max"))
+  }
+)
+
+
+
+
+
 setGeneric(".intersectionY",
           function(x1,y1,x2,y2,x3,y3,x4,y4) standardGeneric(".intersectionY"))
 

@@ -30,11 +30,15 @@ setMethod(
   signature(comparisonMatrix = "PairwiseComparisonMatrix"),
   definition=function(comparisonMatrix, print.report)
   {
-    randomIndex = c(0, 0, 0.52, 0.89, 1.11, 1.25, 1.35, 1.4, 1.45, 1.49)
+    # random index for 10 values
+    # randomIndex = c(0, 0, 0.52, 0.89, 1.11, 1.25, 1.35, 1.4, 1.45, 1.49)
+
+    # random index for 15 values
+    randomIndex = c(0, 0, 0.52, 0.89, 1.11, 1.25, 1.35, 1.4, 1.45, 1.49, 1.52, 1.54, 1.56, 1.58, 1.59)
 
     CI = consistencyIndex(comparisonMatrix)
 
-    if(nrow(comparisonMatrix@values)<11){
+    if(nrow(comparisonMatrix@values)<= length(randomIndex)){
       CR = CI / (randomIndex[nrow(comparisonMatrix@values)])
 
       if(print.report){
@@ -51,7 +55,7 @@ setMethod(
       return(CR)
 
     }else{
-      stop(paste("Cannot calculate Consistency Ratio for matrices with more then 10 rows! The Consistency index is ",
+      stop(paste("Cannot calculate Consistency Ratio for matrices with more then ", length(randomIndex), " rows! The Consistency index is ",
                     CI, ". The consistency of this matrix cannot be determined by Consistency Ratio.",
                  " Please consider using another method to determined if the matrix is consistent.", sep = ""))
     }

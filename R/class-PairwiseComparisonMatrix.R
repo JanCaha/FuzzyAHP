@@ -17,9 +17,6 @@ setClass(
   ),
   validity=function(object)
   {
-    if(!(typeof(object@valuesChar)=="character")){
-      return(paste("The pairwise comparison matrix needs to be of type character but is ", typeof(object@valuesChar), ".", sep = ""))
-    }
 
     if(nrow(object@valuesChar)!=ncol(object@valuesChar)){
       return(paste("The pairwise comparison matrix is not a square matrix. Dimensions are - ncol = ", ncol(object@valuesChar),
@@ -33,33 +30,47 @@ setClass(
       }
     }
 
-    for(i in 1:nrow(object@valuesChar)){
-      for(j in i:nrow(object@valuesChar)){
+    for(i in 1:nrow(object@values)){
+      for(j in i:nrow(object@values)){
 
         if (i!=j){
-          if(suppressWarnings(is.na(as.numeric(object@valuesChar[i,j])))){
-            if (object@valuesChar[j,i] != substr(object@valuesChar[i,j],3,4)){
-              return(paste("The pairwise comparison matrix is not reciprocal.Problem with elements [", i, ",", j, "] and [", j, ",", i, "].", sep = ""))
-            }
+          if (object@values[j,i] != (1/object@values[i,j])){
+            return(paste("The pairwise comparison matrix is not reciprocal. Elements [",i,",",j,
+                         "]  and [",j,",",i,"] are not reciprocal. ", object@values[i,j], " is not reciprocal to ",
+                         object@values[j,i],". Because ", object@values[i,j], " != ", 1/object@values[j,i],
+                         sep = ""))
           }
-          else if(object@valuesChar[j,i] == "1" || object@valuesChar[i,j] == "1"){
-            if(!(object@valuesChar[j,i] == "1" && object@valuesChar[i,j] == "1")){
-              return(paste("The pairwise comparison matrix is not reciprocal. Problem with elements [", i, ",", j, "] and [", j, ",", i, "].", sep = ""))
-            }
-
-          }
-          else{
-            if (object@valuesChar[j,i] != paste("1", object@valuesChar[i,j], sep = "/")){
-              return(paste("The pairwise comparison matrix is not reciprocal. Problem with elements [", i, ",", j, "] and [", j, ",", i, "].", sep = ""))
-            }
-          }
-
         }
       }
     }
 
+    # for(i in 1:nrow(object@valuesChar)){
+    #   for(j in i:nrow(object@valuesChar)){
+    #
+    #     if (i!=j){
+    #       if(suppressWarnings(is.na(as.numeric(object@valuesChar[i,j])))){
+    #         if (object@valuesChar[j,i] != substr(object@valuesChar[i,j],3,4)){
+    #           return(paste("The pairwise comparison matrix is not reciprocal.Problem with elements [", i, ",", j, "] and [", j, ",", i, "].", sep = ""))
+    #         }
+    #       }
+    #       else if(object@valuesChar[j,i] == "1" || object@valuesChar[i,j] == "1"){
+    #         if(!(object@valuesChar[j,i] == "1" && object@valuesChar[i,j] == "1")){
+    #           return(paste("The pairwise comparison matrix is not reciprocal. Problem with elements [", i, ",", j, "] and [", j, ",", i, "].", sep = ""))
+    #         }
+    #
+    #       }
+    #       else{
+    #         if (object@valuesChar[j,i] != paste("1", object@valuesChar[i,j], sep = "/")){
+    #           return(paste("The pairwise comparison matrix is not reciprocal. Problem with elements [", i, ",", j, "] and [", j, ",", i, "].", sep = ""))
+    #         }
+    #       }
+    #
+    #     }
+    #   }
+    # }
+
     if(max(object@values) > 9){
-      return(paste("The maximal value in the pairwise comparison matrix should not be higher than 9, however,",
+      warning(paste("The maximal value in the pairwise comparison matrix should not be higher than 9, however,",
                    "the value ", max(object@values), " was found.", sep = ""))
     }
 
@@ -77,7 +88,9 @@ setClass(
 #' @description
 #' This methods construct object \code{\linkS4class{PairwiseComparisonMatrix}} based on provided \code{matrix}.
 #' The matrix needs to be square and reciprocal with the intensity of importance
-#' (comparisons) represented as characters (e.g. "1", "9", "1/9") otherwise the function fails.
+#' (comparisons).
+#' Since the version 0.6.9 the comparsions can be represented as either characters (e.g. "1", "9", "1/9")
+#' or numeric (e.g. 1, 9, 1/9) .
 #'
 #' @param matrix A reciprocal square matrix with ones on the main diagonal.
 #'
@@ -93,6 +106,10 @@ setClass(
 #' comparisonMatrix = matrix(comparisonMatrixValues, nrow = 3, ncol = 3, byrow = TRUE)
 #' matrix = pairwiseComparisonMatrix(comparisonMatrix)
 #'
+#' comparisonMatrixValues = c(1,9,5,1/9,1,1/3,1/5,3,1)
+#' comparisonMatrix = matrix(comparisonMatrixValues, nrow = 3, ncol = 3, byrow = TRUE)
+#' matrix = pairwiseComparisonMatrix(comparisonMatrix)
+#'
 #' @rdname pairwiseComparisonMatrix-methods
 #' @name pairwiseComparisonMatrix
 setGeneric("pairwiseComparisonMatrix",
@@ -105,20 +122,27 @@ setMethod(
   signature(matrix = "matrix"),
   definition=function(matrix)
   {
-    values = matrix(data = 0, nrow = nrow(matrix), ncol = ncol(matrix))
+    if(typeof(matrix)=="character"){
 
-    for (i in 1:nrow(matrix)){
-      for (j in 1:ncol(matrix)){
+      values = matrix(data = 0, nrow = nrow(matrix), ncol = ncol(matrix))
 
-        if(nchar(matrix[i,j])==3 & substr(matrix[i,j],1,2)=="1/"){
-          number = as.integer(substr(matrix[i,j],3,4))
+      for (i in 1:nrow(matrix)){
+        for (j in 1:ncol(matrix)){
 
-          values[i,j] = 1/number
-        }else{
-          values[i,j] = as.integer(substr(matrix[i,j],1,2))
+          if(nchar(matrix[i,j])==3 & substr(matrix[i,j],1,2)=="1/"){
+            number = as.integer(substr(matrix[i,j],3,4))
+
+            values[i,j] = 1/number
+          }else{
+            values[i,j] = as.integer(substr(matrix[i,j],1,2))
+          }
         }
       }
+    }else if(typeof(matrix)=="double"){
+      values = matrix
+      matrix = matrix(as.character(matrix), nrow = nrow(values), ncol=ncol(values), byrow = TRUE)
     }
+
 
     if(length(colnames(matrix))>0){
       variableNames = colnames(matrix)

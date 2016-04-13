@@ -16,4 +16,11 @@ test_that("Tests of AHP calculation", {
   expect_true(ahpResult[1]<ahpResult[2])
   expect_true(ahpResult[2]<ahpResult[3])
   expect_true(ahpResult[2]==ahpResult[4])
+
+  comparisonMatrixValues = c(1,9,4,
+                             1/9,1,1/5,
+                             1/4,5,1)
+  comparisonMatrix = matrix(comparisonMatrixValues, nrow = 3, ncol = 3, byrow = TRUE)
+  matrix = pairwiseComparisonMatrix(comparisonMatrix)
+
 })
