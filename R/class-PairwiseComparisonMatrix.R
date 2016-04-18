@@ -144,6 +144,32 @@ setMethod(
     }
 
 
+    # if(length(colnames(matrix))>0){
+    #   variableNames = colnames(matrix)
+    # }else if(length(rownames(matrix))>0){
+    #   variableNames = rownames(matrix)
+    # }else{
+    #   variableNames = NA_character_
+    # }
+
+    return(new("PairwiseComparisonMatrix", valuesChar = matrix, values = values,
+               variableNames = .getVariableNames(matrix)))
+  }
+)
+
+
+
+
+# new internal function for obtaining names from matrix
+setGeneric(".getVariableNames",
+           function(matrix) standardGeneric(".getVariableNames"))
+
+
+setMethod(
+  f=".getVariableNames",
+  signature(matrix = "matrix"),
+  definition=function(matrix)
+  {
     if(length(colnames(matrix))>0){
       variableNames = colnames(matrix)
     }else if(length(rownames(matrix))>0){
@@ -152,6 +178,6 @@ setMethod(
       variableNames = NA_character_
     }
 
-    return(new("PairwiseComparisonMatrix", valuesChar = matrix, values = values, variableNames = variableNames))
+    return(variableNames)
   }
 )
