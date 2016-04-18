@@ -44,9 +44,9 @@ setClass(
 #' represent minimal, modal and maximal value of fuzzy number.
 #'
 #' @param data A \code{matrix} with 3 colums.
-#' @param single.value An optional boolean parameter specifying if the data to be turn into fuzzy data
-#' is single vector of fuzzy numbers (then it needs to have 3 colums) or if the whole matrix needs to
-#' be turn into fuzzy values.
+#' @param single.value An optional boolean parameter (default value TRUE) specifying if the data to be
+#' turn into fuzzy data is single vector of fuzzy numbers (then it needs to have 3 colums) or if the
+#' whole matrix needs to be turn into fuzzy values.
 #'
 #' @return An object of class \code{\linkS4class{FuzzyData}}
 #' @export
