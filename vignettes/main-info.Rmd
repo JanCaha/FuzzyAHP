@@ -3,7 +3,7 @@ title: "Information about FuzzyAHP package for R (ver. `r packageDescription('Fu
 author: "Jan Caha, Aneta Drážná"
 date: "`r Sys.time()`"
 output: 
-  html_vignette:
+  rmarkdown::html_vignette:
     toc: TRUE
 bibliography: ahp-bibliography.bib
 vignette: >
