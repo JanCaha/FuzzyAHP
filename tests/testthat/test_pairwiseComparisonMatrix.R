@@ -9,14 +9,15 @@ test_that("Tests of pairwise comparison matrix", {
   expect_is(matrix, "PairwiseComparisonMatrix")
 })
 
-test_that("Tests of pairwise comparison matrix - failed (matrix is numerical)", {
-  comparisonMatrixValues = c(1,9,5,
-                             1/9,1,1/3,
-                             1/5,3,1)
-  comparisonMatrix = matrix(comparisonMatrixValues, nrow = 3, ncol = 3, byrow = TRUE)
-  expect_error(pairwiseComparisonMatrix(comparisonMatrix),
-               "The pairwise comparison matrix needs to be of type character but is double.")
-})
+# since version 0.6.9 it is possible to construct the pairwise comparison matrix event from numerical matrix
+# test_that("Tests of pairwise comparison matrix - failed (matrix is numerical)", {
+#   comparisonMatrixValues = c(1,9,5,
+#                              1/9,1,1/3,
+#                              1/5,3,1)
+#   comparisonMatrix = matrix(comparisonMatrixValues, nrow = 3, ncol = 3, byrow = TRUE)
+#   expect_error(pairwiseComparisonMatrix(comparisonMatrix),
+#                "The pairwise comparison matrix needs to be of type character but is double.")
+# })
 
 test_that("Tests of pairwise comparison matrix - failed (matrix does not have ones on diagonal)", {
   comparisonMatrixValues = c("1","9","5",
