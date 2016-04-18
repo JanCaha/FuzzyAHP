@@ -92,7 +92,7 @@ setMethod(
         for (k in 1:size){
 
           if (matrix[i,j]>1 && matrix[j,k]>1){
-            if(matrix[i,k] >= max(matrix[i,j], matrix[j,k])){
+            if(matrix[i,k] < max(matrix[i,j], matrix[j,k])){
 
               text = paste("[",i,",",k,"] < max([",i,",",j,"],[",j,",",k,"]) -- ",
                            matrix[i,k]," < max(",
