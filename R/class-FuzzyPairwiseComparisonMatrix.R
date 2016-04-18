@@ -17,7 +17,19 @@ setClass(
     fnModal = "matrix",
     fnMax = "matrix",
     variableNames = "character"
-  )
+  ),
+  validity=function(object)
+  {
+    if(length(which(object@fnMin>object@fnModal)) != 0){
+      return("Cannot create fuzzy pairwise comparison matrix. Minimal and modal values are not aligned correctly!")
+    }
+
+    if(length(which(object@fnModal>object@fnMax)) != 0){
+      return("Cannot create fuzzy pairwise comparison matrix. Modal and maximal values are not aligned correctly!")
+    }
+
+
+  }
 )
 
 
@@ -37,7 +49,13 @@ setClass(
 #' parameter is \code{as.double(c(1/2,1,2,1,2,3,2,3,4,3,4,5,4,5,6,5,6,7,6,7,8,7,8,9,8,9,9))}. Another
 #' possibility is eg. \code{as.double(c(1/3,1,3,1,3,5,3,5,7,5,7,9,7,9,9))}
 #'
-#' @param pairwiseComparisonMatrix \linkS4class{PairwiseComparisonMatrix}.
+#' If param \code{pairwiseComparisonMatrix} is \code{matrix} then it needs to be of \code{character} type.
+#' Each element in the matrix must be specified as triplet \code{"x;y;z"}, where \code{x<=y<=z}.
+#' From this matrix a pairwise comparison is constructed from \code{y} values and \code{x} and \code{z}
+#' function as lower and upper limits of \code{y} respectively. In this case the optional parameter
+#' \code{fuzzyScale} is not taken into account at all.
+#'
+#' @param pairwiseComparisonMatrix \linkS4class{PairwiseComparisonMatrix} or \code{matrix}.
 #' @param fuzzyScale A numeric vector that definies fuzzy scale. Default scale is described in details.
 #'
 #' @usage fuzzyPairwiseComparisonMatrix(pairwiseComparisonMatrix, fuzzyScale)
@@ -129,6 +147,67 @@ setMethod(
     }
 
     return(new("FuzzyPairwiseComparisonMatrix", fnMin = fnMin, fnModal = fnModal, fnMax = fnMax, variableNames = pairwiseComparisonMatrix@variableNames))
+  }
+)
+
+#' @rdname fuzzyPairwiseComparisonMatrix-methods
+#' @aliases fuzzyPairwiseComparisonMatrix,PairwiseComparisonMatrix,fuzzyScale-method
+setMethod(
+  f="fuzzyPairwiseComparisonMatrix",
+  signature(pairwiseComparisonMatrix = "matrix"),
+  definition=function(pairwiseComparisonMatrix, fuzzyScale)
+  {
+    if(typeof(pairwiseComparisonMatrix)!="character"){
+      stop("Can only parse character matrix as fuzzy pairwise comparison matrix!")
+    }
+
+    if(nrow(pairwiseComparisonMatrix)!=ncol(pairwiseComparisonMatrix)){
+      stop(paste("The fuzzy pairwise comparison matrix is not a square matrix. Dimensions are - ncol = ",
+                   ncol(pairwiseComparisonMatrix), ", nrow = ", nrow(pairwiseComparisonMatrix), ".", sep = ""))
+    }
+
+    sep = ";"
+
+    size = nrow(pairwiseComparisonMatrix)
+    mMin = matrix(data = 0, nrow = size, ncol = size)
+    mModal = matrix(data = 0, nrow = size, ncol = size)
+    mMax = matrix(data = 0, nrow = size, ncol = size)
+
+    rownames(mModal) = rownames(pairwiseComparisonMatrix)
+    colnames(mModal) = colnames(pairwiseComparisonMatrix)
+
+    for(i in 1:size){
+      for(j in 1:size){
+
+        string = pairwiseComparisonMatrix[i,j]
+        stringSplit = strsplit(string, sep)
+
+        if(length(stringSplit[[1]])!=3){
+          stop(paste0("Element on position [", i, ",", j, "] ", string, " cannot be split into three values by separtor ",
+                      sep, " !"))
+        }else{
+          vMin = eval(parse(text=stringSplit[[1]][1]))
+          vModal = eval(parse(text=stringSplit[[1]][2]))
+          vMax = eval(parse(text=stringSplit[[1]][3]))
+
+          if(vMin>vModal || vModal>vMax){
+            stop(paste0("Element on [",i,",",j,"] is not ordered correctly. ", vMin, "<=",
+                       vModal, "<=", vMax))
+          }
+
+          mMin[i,j] = vMin
+          mModal[i,j] = vModal
+          mMax[i,j] = vMax
+        }
+      }
+    }
+
+    mModal = pairwiseComparisonMatrix(mModal)
+
+    return(fuzzyPairwiseComparisonMatrix1(mMin, mModal, mMax))
+
+    # return(new("FuzzyPairwiseComparisonMatrix", fnMin = mMin, fnModal = mModal@values,
+    #            fnMax = mMax, variableNames = .getVariableNames(pairwiseComparisonMatrix)))
   }
 )
 
