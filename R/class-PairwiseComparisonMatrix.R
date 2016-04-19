@@ -138,9 +138,15 @@ setMethod(
           }
         }
       }
+      names = .getVariableNames(matrix)
+      colnames(matrix) = NULL
+
     }else if(typeof(matrix)=="double"){
       values = matrix
+      colnames(values) = NULL
+      names = .getVariableNames(matrix)
       matrix = matrix(as.character(matrix), nrow = nrow(values), ncol=ncol(values), byrow = TRUE)
+      colnames(matrix) = NULL
     }
 
 
@@ -153,7 +159,7 @@ setMethod(
     # }
 
     return(new("PairwiseComparisonMatrix", valuesChar = matrix, values = values,
-               variableNames = .getVariableNames(matrix)))
+               variableNames = names))
   }
 )
 
