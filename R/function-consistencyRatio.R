@@ -81,8 +81,8 @@ setMethod(
           cat(paste("Consistency ratio of modal values is: ", CR, ". The fuzzy pairwise comparison matrix is consistent for calculations.", sep=""))
           cat("\n")
         }else{
-          cat(paste("Consistency ratio of modal values is: ", CR, ". It should be lower than: ", randomIndex[nrow(comparisonMatrix@values)],
-                    ". The fuzzy pairwise comparison matrix is not consistent enough for correct calculations. Please consider redefining the matrix!",
+          cat(paste("Consistency ratio of modal values is: ", CR,
+                    "The fuzzy pairwise comparison matrix is not consistent enough for correct calculations. Please consider redefining the matrix!",
                     sep = ""))
           cat("\n")
         }
