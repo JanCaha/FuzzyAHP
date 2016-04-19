@@ -57,7 +57,7 @@ setMethod(
     wMax = c()
 
     for(i in 1:p){
-      limits = weightsLimits(comparisonMatrix,i)
+      limits = .weightsLimits(comparisonMatrix,i)
       wMin = append(wMin, limits[1])
       wMax = append(wMax, limits[2])
 
