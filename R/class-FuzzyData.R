@@ -70,6 +70,9 @@ setMethod(
       stop("Parameter single.value is not of type logical.")
     }
 
+    colnames(data) = NULL
+    rownames(data) = NULL
+
     if (single.value) {
       if(ncol(data)!=3){
         stop("Input dataset has to have three colums!")
