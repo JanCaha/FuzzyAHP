@@ -3,11 +3,11 @@
 # for calculation of fuzzy weights
 ######################################################
 
-setGeneric("weightsLimits",
-           function(data, i) standardGeneric("weightsLimits"))
+setGeneric(".weightsLimits",
+           function(data, i) standardGeneric(".weightsLimits"))
 
 setMethod(
-  f="weightsLimits",
+  f=".weightsLimits",
   signature(data = "FuzzyPairwiseComparisonMatrix", i = "numeric"),
   definition=function(data, i)
   {
@@ -16,16 +16,16 @@ setMethod(
     # calculate lower value of weight
     prodL = prod(data@fnMin[i,])^(1/p)
 
-    optL1 = optProLower(data, i, "min")
-    optL2 = optProLower(data, i, "max")
+    optL1 = .optProLower(data, i, "min")
+    optL2 = .optProLower(data, i, "max")
 
     wL = prodL /(prodL + max(optL1, optL2))
 
     # calculate upper value of weight
     prodU = prod(data@fnMax[i,])^(1/p)
 
-    optU1 = optProUpper(data, i, "min")
-    optU2 = optProUpper(data, i, "max")
+    optU1 = .optProUpper(data, i, "min")
+    optU2 = .optProUpper(data, i, "max")
 
     wU = prodU /(prodU + min(optU1, optU2))
 
@@ -34,11 +34,11 @@ setMethod(
 )
 
 # function for calculating upper limits
-setGeneric("optProUpper",
-           function(data, i, type) standardGeneric("optProUpper"))
+setGeneric(".optProUpper",
+           function(data, i, type) standardGeneric(".optProUpper"))
 
 setMethod(
-  f="optProUpper",
+  f=".optProUpper",
   signature(data = "FuzzyPairwiseComparisonMatrix", i = "numeric", type = "character"),
   definition=function(data, i, type)
   {
@@ -58,16 +58,16 @@ setMethod(
       stop(paste("Unrecognized type (should be min or max) is: ",type,".", sep = ""))
     }
 
-    return(optPro(data, i, matrix, element))
+    return(.optPro(data, i, matrix, element))
   }
 )
 
 # function for calculating lower limits
-setGeneric("optProLower",
-           function(data, i, type) standardGeneric("optProLower"))
+setGeneric(".optProLower",
+           function(data, i, type) standardGeneric(".optProLower"))
 
 setMethod(
-  f="optProLower",
+  f=".optProLower",
   signature(data = "FuzzyPairwiseComparisonMatrix", i = "numeric", type = "character"),
   definition=function(data, i, type)
   {
@@ -87,16 +87,16 @@ setMethod(
       stop(paste("Unrecognized type (should be min or max) is: ",type,".", sep = ""))
     }
 
-    return(optPro(data, i, matrix, element))
+    return(.optPro(data, i, matrix, element))
   }
 )
 
 # optimization function
-setGeneric("optPro",
-           function(data, i, matrix, element) standardGeneric("optPro"))
+setGeneric(".optPro",
+           function(data, i, matrix, element) standardGeneric(".optPro"))
 
 setMethod(
-  f="optPro",
+  f=".optPro",
   signature(data = "FuzzyPairwiseComparisonMatrix", i = "numeric", matrix = "matrix", element = "matrix"),
   definition=function(data, i, matrix, element)
   {
