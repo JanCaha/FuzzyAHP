@@ -5,8 +5,8 @@
 #' The functions merges the sources into single output. It inserts data2 onto specific position (defined by index) in
 #' data1.
 #'
-#' @param data1 An object of \code{\linkS4class{FuzzyData}}.
-#' @param data2 An object of \code{\linkS4class{FuzzyData}}.
+#' @param data1 An object of \code{\linkS4class{FuzzyData}} - data to insert into.
+#' @param data2 An object of \code{\linkS4class{FuzzyData}} - data that should be inserted.
 #' @param index An integer specifying the column position on which data2 should be inserted.
 #'
 #' @return An object of class \code{\linkS4class{FuzzyData}}
@@ -41,7 +41,7 @@ setMethod(
     }
 
     if(index > ncol(data1@fnModal)){
-      stop(paste("Index outside of range. Can not bud data2 on position ", index, " when there are only ", ncol(data1@fnModal),
+      stop(paste("Index outside of range. Can not put data2 on position ", index, " when there are only ", ncol(data1@fnModal),
                  " of colums in data1.", sep = ""))
     }
 
