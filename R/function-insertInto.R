@@ -51,7 +51,7 @@ setMethod(
 
     if(ncol(data1@fnModal)==1){
       if(index == 1){
-        return(bindColums(data2, data))
+        return(bindColums(data2, data1))
       }
     }
 
@@ -74,8 +74,3 @@ setMethod(
     return(data1)
   }
 )
-
-
-values = (c(1,2,3,4,5,6,7,8,9))
-values = matrix(values, nrow = 3, ncol = 3, byrow = TRUE)
-fData = fuzzyData(values, single.value = FALSE)
