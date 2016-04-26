@@ -4,6 +4,18 @@
 #' This function defuzzifies \code{\linkS4class{FuzzyData}} into single value.
 #' The \code{\linkS4class{FuzzyData}} can only contain one fuzzy number, otherwise the defuzzification is not possible.
 #'
+#' @details
+#' The triangular fuzzy numbers \eqn{\tilde{A}}{A} represented as triplet \eqn{[a1,a2,a3]} are defuzzified using these
+#' methods:
+#' \code{"Yager"}:
+#' \deqn{def (\tilde{A}) = \frac{(a2-a1)(a1+2/3(a2-a1)+(a3-a2)(a2+1/3(a3-a2))}{(a2-a1)+(a3-a2))}}{def(A) = ((a2-a1)(a1+2/3(a2-a1)+(a3-a2)(a2+1/3(a3-a2))) / ((a2-a1)+(a3-a2)))}
+#' \code{"modalvalue"}:
+#' \deqn{def (\tilde{A}) = a2}{def(A) = a2}
+#' \code{"modalValueDominancy"}:
+#' \deqn{def(\tilde{A}) = (a1 + 4*a2 + a3)/6}{def(A) = (a1 + 4*a2 + a3)/6}
+#' \code{"mean"}:
+#' \deqn{def(\tilde{A}) = (a1 + a2 + a3)/3}{def(A) = (a1 + a2 + a3)/3}.
+#'
 #' @param fuzzyData A \code{\linkS4class{FuzzyData}}
 #' @param type A \code{"character"} representing type of defuzzification. Currently implemented methods are
 #' \code{"Yager"}, \code{"modalValue"}, \code{"modalValueDominancy"}, \code{"mean"}. The default value is \code{"mean"}.

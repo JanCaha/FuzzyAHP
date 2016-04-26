@@ -1,7 +1,7 @@
 #' Function to assess Weak Consistency of Comparison Matrix
 #'
 #' @description Check if for \eqn{a_{ij}>1,a_{jk}>1}{a[i,j]>1,a[j,k]>1} applies that
-#' \eqn{a_{ik}>=\max(a_{ij},a_{jk})}{a[i,k]>=max(a[i,j],a[j,k])} for all \eqn{i,j,k = 1,2,\dots,n}, where
+#' \deqn{a_{ik}>=\max(a_{ij},a_{jk})}{a[i,k]>=max(a[i,j],a[j,k])} for all \eqn{i,j,k = 1,2,\dots,n}, where
 #' \eqn{n} is size of \eqn{a}.
 #'
 #' @param PairwiseComparisonMatrix A \linkS4class{FuzzyPairwiseComparisonMatrix} or

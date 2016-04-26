@@ -1,6 +1,6 @@
 #' Function to assess strict consistency of Comparison Matrix
 #'
-#' @description Check if \eqn{a_{ik} = a_{ij} \times a_{jk}}{a[i,k]==a[i,j]*a[j,k]} applies
+#' @description Check if \deqn{a_{ik} = a_{ij} \times a_{jk}}{a[i,k]==a[i,j]*a[j,k]} applies
 #' for all \eqn{i,j,k = 1,2,\dots,n}, where \eqn{n} is size of \eqn{a}.
 #'
 #' @param PairwiseComparisonMatrix A \linkS4class{FuzzyPairwiseComparisonMatrix} or
