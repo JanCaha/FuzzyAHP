@@ -8,9 +8,8 @@ Authors@R: c(person("Jan", "Caha", email = "cahik@atlas.cz",
   person("Aneta", "Drážná", email = "",
   role = c("ctb", "com")))
 URL: http://github.com/JanCaha/FuzzyAHP/
-Description: Calculation of AHP (Analytic Hierarchy Process - <http://
-    en.wikipedia.org/wiki/Analytic_hierarchy_process>) with classic and fuzzy
-    weights based on Saaty's pairwise comparison method for determination of
+Description: Calculation of AHP (Analytic Hierarchy Process - <http://en.wikipedia.org/wiki/Analytic_hierarchy_process>) 
+    with classic and fuzzy weights based on Saaty's pairwise comparison method for determination of
     weights.
 Encoding: UTF-8
 Depends:
