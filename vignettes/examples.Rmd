@@ -59,8 +59,8 @@ Either way the comparsion matrix is created using command pairwiseComparisonMatr
 
 ```{r}
 comparisonMatrix = pairwiseComparisonMatrix(comparisonMatrix)
-print(comparisonMatrix)
 ```
+
 
 ### Testing consistency of Pairwise Comparison Matrix
 
@@ -197,4 +197,29 @@ ranked = compareFuzzyNumbers(result, "possibilityTheory")
 ```{r}
 print(ranked)
 ```
-## References
+
+## Other methods for determination of fuzzy weights
+
+Since version 0.8.0 three methods for determination of fuzzy weights were added to the package. These are implemented in function:
+```{r, eval=FALSE}
+calculateWeights_old_methods(fuzzyComparisonMatrix, type)
+```
+and should only be used for comparison to the new approach proposed by @Krejci2016. All three methods do not provide optimal outputs and significantly overestimate the amount of uncertainty of fuzzy weights in fuzzy AHP. The implemented methods are from publications @Chang1996, @Tesfamariam2006 and @Wang2008b.
+
+All three mentioned methods are often used to calculate so called weighting (or priority) vector of crisp weights based on comparisons of fuzzy weights (@Chang1996). However, @Wang2008b showed that the priority vector can assign irrational weights at specific situations and thus is not suitable for practical calculations. For the purpose of comparison the method for determination of fuzzy vector is implemented as:
+```{r, eval=FALSE}
+calculate_weighting_vector(fuzzyWeights).
+
+```
+
+# Author's contribution
+
+Jan Caha - creator, programmer
+
+Aneta Drážná - tester
+
+
+
+# References
+
+

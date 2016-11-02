@@ -1,15 +1,16 @@
 Package: FuzzyAHP
 Type: Package
 Title: (Fuzzy) AHP Calculation
-Version: 0.7.1
-Date: 2016-03-14
+Version: 0.8.0
+Date: 2016-11-01
 Authors@R: c(person("Jan", "Caha", email = "cahik@atlas.cz",
   role = c("aut", "cre")),
   person("Aneta", "Drážná", email = "",
   role = c("ctb", "com")))
 URL: http://github.com/JanCaha/FuzzyAHP/
-Description: Calculation of AHP (Analytic Hierarchy Process - <http://en.wikipedia.org/wiki/Analytic_hierarchy_process>) 
-    with classic and fuzzy weights based on Saaty's pairwise comparison method for determination of
+Description: Calculation of AHP (Analytic Hierarchy Process - <http://
+    en.wikipedia.org/wiki/Analytic_hierarchy_process>) with classic and fuzzy
+    weights based on Saaty's pairwise comparison method for determination of
     weights.
 Encoding: UTF-8
 Depends:
@@ -29,6 +30,7 @@ Collate:
     'class-Weights.R'
     'function-bindFuzzyData.R'
     'function-calculateAHP.R'
+    'function-calculateFuzzyAHP.R'
     'function-calculateWeights.R'
     'function-compare.R'
     'function-consistencyIndex.R'
@@ -37,6 +39,7 @@ Collate:
     'function-getFuzzyNumbers.R'
     'function-insertInto.R'
     'function-internal-optimization.R'
+    'function-internal-weights.R'
     'function-print.R'
     'function-strictConsistency.R'
     'function-weakConsistency.R'

@@ -1,6 +1,7 @@
 ######################################################
 # this file contains internal functions
-# for calculation of fuzzy weights
+# for calculation of fuzzy weights using method described
+# by Krejčí et al. (2016)
 ######################################################
 
 setGeneric(".weightsLimits",
@@ -42,9 +43,6 @@ setMethod(
   signature(data = "FuzzyPairwiseComparisonMatrix", i = "numeric", type = "character"),
   definition=function(data, i, type)
   {
-    sum = 0
-    p = nrow(data@fnMin)
-
     element = data@fnMin
 
     if(type == "min"){
@@ -71,9 +69,6 @@ setMethod(
   signature(data = "FuzzyPairwiseComparisonMatrix", i = "numeric", type = "character"),
   definition=function(data, i, type)
   {
-    sum = 0
-    p = nrow(data@fnMin)
-
     element = data@fnMax
 
     if(type == "min"){

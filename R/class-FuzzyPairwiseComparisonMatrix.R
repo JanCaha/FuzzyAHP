@@ -269,16 +269,17 @@ setMethod(
       for (j in 1:size){
 
         if(!(lowerValues[i,j]<=pairwiseComparisonMatrix@values[i,j] && pairwiseComparisonMatrix@values[i,j]<=upperValues[i,j])){
-          stop(paste("Element on [",i,",",j,"] is not ordered correctly. ",lowerValues[i,j], "<=",
-                     pairwiseComparisonMatrix@values[i,j], "<=", upperValues[i,j], sep=""))
+          stop(paste0("Element on [",i,",",j,"] is not ordered correctly. ",lowerValues[i,j], "<=",
+                     pairwiseComparisonMatrix@values[i,j], "<=", upperValues[i,j], "."))
         }
 
         if(i == j && (lowerValues[i,j]!=1 || upperValues[i,j]!=1)){
-          stop(paste("Elements on the main diagonal need to be (1,1,1). Element [",i,",",j,"] is (",
-                     lowerValues[i,j],",",pairwiseComparisonMatrix@values[i,j],",", upperValues[i,j],").", sep = ""))
-        }else if(lowerValues[i,j]!=(1/upperValues[j,i])){
-          stop(paste("Elements [",i,",",j,"]  and [",j,",",i,"] are not reciprocal. ",lowerValues[i,j],
-                     " is not reciprocal to ", upperValues[j,i],".", sep = ""))
+          stop(paste0("Elements on the main diagonal need to be (1,1,1). Element [",i,",",j,"] is (",
+                     lowerValues[i,j],",",pairwiseComparisonMatrix@values[i,j],",", upperValues[i,j],")."))
+        }else if( abs(lowerValues[i,j]-(1/upperValues[j,i])) > 1e-10 ){
+          stop(paste0("Elements [",i,",",j,"]  and [",j,",",i,"] are not reciprocal. ",lowerValues[i,j],
+                     " is not reciprocal to ", upperValues[j,i],". The difference is of values is ",
+                     abs(lowerValues[i,j]-(1/upperValues[j,i])), "."))
         }
       }
     }
