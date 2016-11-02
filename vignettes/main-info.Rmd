@@ -30,7 +30,7 @@ The source code for this package is available from: https://github.com/JanCaha/F
 
 ## See also
 
-**R** package **ahp** provides classical implementation of AHP based on pairwise comparison of both criteria and alternatives. The package is available from https://cran.r-project.org/web/packages/ahp/index.html.
+**R** package **ahp** provides classical implementation of AHP based on pairwise comparison of both criteria and alternatives. The package is available from https://CRAN.R-project.org/package=ahp.
 
 ---
 nocite: | 
