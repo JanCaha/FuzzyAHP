@@ -1,0 +1,11 @@
+# All changes to fuzzyAHP are documented here.
+
+## Version 0.8.5 (CRAN)
+bugfixes of pairwiseComparisonMatrix
+  - valuesChar was fliped if input matrix was of type double
+  - function failed due to issues with comparisons of double if the input matrix was not rounded
+
+bugfix of fuzzyPairwiseComparisonMatrix
+  - fixed the issue of creation if input was matrix of type double
+
+## Version 0.8.4 (CRAN)

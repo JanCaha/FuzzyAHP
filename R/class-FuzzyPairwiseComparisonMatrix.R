@@ -80,6 +80,7 @@ setGeneric("fuzzyPairwiseComparisonMatrix",
 
 #' @rdname fuzzyPairwiseComparisonMatrix-methods
 #' @aliases fuzzyPairwiseComparisonMatrix,PairwiseComparisonMatrix,fuzzyScale-method
+#' @importFrom FRACTION fra.m
 setMethod(
   f="fuzzyPairwiseComparisonMatrix",
   signature(pairwiseComparisonMatrix = "PairwiseComparisonMatrix"),
@@ -112,6 +113,11 @@ setMethod(
       for (j in 1:size){
 
         charIntensity = pairwiseComparisonMatrix@valuesChar[i,j]
+
+        if(suppressWarnings(!is.na(as.numeric(charIntensity))) && as.numeric(charIntensity)<1){
+          charIntensity = gsub(" ", "", fra.m(charIntensity))
+          print(charIntensity)
+        }
 
         if (i==j & charIntensity == "1"){
           fnMin[i,j] = v1diagonal[1]

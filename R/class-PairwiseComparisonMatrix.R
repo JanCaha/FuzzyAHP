@@ -34,7 +34,8 @@ setClass(
       for(j in i:nrow(object@values)){
 
         if (i!=j){
-          if (object@values[j,i] != (1/object@values[i,j])){
+          #if (object@values[j,i] != (1/object@values[i,j])){
+          if (!isTRUE(all.equal(object@values[j,i], (1/object@values[i,j])))){
             return(paste("The pairwise comparison matrix is not reciprocal. Elements [",i,",",j,
                          "]  and [",j,",",i,"] are not reciprocal. ", object@values[i,j], " is not reciprocal to ",
                          object@values[j,i],". Because ", object@values[i,j], " != ", 1/object@values[j,i],
@@ -145,7 +146,7 @@ setMethod(
       values = matrix
       colnames(values) = NULL
       names = .getVariableNames(matrix)
-      matrix = matrix(as.character(matrix), nrow = nrow(values), ncol=ncol(values), byrow = TRUE)
+      matrix = matrix(as.character(values), nrow = nrow(values), ncol=ncol(values))
       colnames(matrix) = NULL
     }
 
