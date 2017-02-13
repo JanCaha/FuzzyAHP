@@ -1,6 +1,14 @@
 # All changes to fuzzyAHP are documented here.
 
-## Version 0.8.5 (CRAN)
+## Version 0.9.0 (CRAN)
+- compelte rewrite of pairwiseComparisonMatrix and FuzzyPairwiseComparisonMatrix functions
+for more easier creation of pairwise comparison matrices
+- removed function as.data.frame
+- added textRepresentation function that convers FuzzyPairwiseComparisonMatrix and
+PairwiseComparisonMatrix into character dataframe
+- added getFuzzyScale function which constructs fuzzy scale
+
+## Version 0.8.6 (CRAN)
 bugfixes of pairwiseComparisonMatrix
   - valuesChar was fliped if input matrix was of type double
   - function failed due to issues with comparisons of double if the input matrix was not rounded

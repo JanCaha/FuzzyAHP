@@ -10,11 +10,12 @@
 setClass(
   Class="FuzzyWeights",
 
-  representation(
+  slots = c(
     fnMin = "numeric",
     fnModal = "numeric",
     fnMax = "numeric"
   ),
+
   validity=function(object)
   {
     if(length(object@fnMin) != length(object@fnModal) || length(object@fnModal) != length(object@fnMax)){

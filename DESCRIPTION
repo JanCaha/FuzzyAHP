@@ -1,7 +1,7 @@
 Package: FuzzyAHP
 Type: Package
 Title: (Fuzzy) AHP Calculation
-Version: 0.8.6
+Version: 0.9.0
 Date: 2016-11-01
 Authors@R: c(person("Jan", "Caha", email = "cahik@atlas.cz",
   role = c("aut", "cre")),
@@ -16,7 +16,7 @@ Encoding: UTF-8
 Depends:
     R (>= 3.0.0),
     methods,
-    FRACTION
+    MASS
 Suggests:
     knitr
 License: LGPL (>= 3)
@@ -29,8 +29,8 @@ Collate:
     'class-FuzzyPairwiseComparisonMatrix.R'
     'class-FuzzyWeights.R'
     'class-Weights.R'
-    'function-as-dataframe.R'
     'function-bindFuzzyData.R'
+    'function-buildFuzzyPairwiseComparisonMatrix.R'
     'function-buildPairwiseComparisonMatrix.R'
     'function-calculateAHP.R'
     'function-calculateFuzzyAHP.R'
@@ -40,10 +40,12 @@ Collate:
     'function-consistencyRatio.R'
     'function-defuzzify.R'
     'function-getFuzzyNumbers.R'
+    'function-getFuzzyScale.R'
     'function-insertInto.R'
     'function-internal-optimization.R'
     'function-internal-weights.R'
     'function-print.R'
     'function-strictConsistency.R'
+    'function-textRepresentation.R'
     'function-weakConsistency.R'
     'package-FuzzyAHP.R'

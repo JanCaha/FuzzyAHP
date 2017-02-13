@@ -162,7 +162,7 @@ setMethod(
     if(ncol(data)>1){
       stop("Comparing results is only possible for matrixes with one column.")
     }
-    m = cbind((nrow(data)+1) - rank(data, na.last = "keep", ties.method= "max"))
+    m = cbind(nrow(data) + 1 - sum(is.na(data)) - rank(data, na.last = "keep", ties.method= "max"))
     return(m)
   }
 )

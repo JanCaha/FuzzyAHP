@@ -10,11 +10,12 @@
 setClass(
   Class="PairwiseComparisonMatrix",
 
-  representation(
+  slots = c(
     valuesChar = "matrix",
     values = "matrix",
     variableNames = "character"
   ),
+
   validity=function(object)
   {
 
@@ -44,31 +45,6 @@ setClass(
         }
       }
     }
-
-    # for(i in 1:nrow(object@valuesChar)){
-    #   for(j in i:nrow(object@valuesChar)){
-    #
-    #     if (i!=j){
-    #       if(suppressWarnings(is.na(as.numeric(object@valuesChar[i,j])))){
-    #         if (object@valuesChar[j,i] != substr(object@valuesChar[i,j],3,4)){
-    #           return(paste("The pairwise comparison matrix is not reciprocal.Problem with elements [", i, ",", j, "] and [", j, ",", i, "].", sep = ""))
-    #         }
-    #       }
-    #       else if(object@valuesChar[j,i] == "1" || object@valuesChar[i,j] == "1"){
-    #         if(!(object@valuesChar[j,i] == "1" && object@valuesChar[i,j] == "1")){
-    #           return(paste("The pairwise comparison matrix is not reciprocal. Problem with elements [", i, ",", j, "] and [", j, ",", i, "].", sep = ""))
-    #         }
-    #
-    #       }
-    #       else{
-    #         if (object@valuesChar[j,i] != paste("1", object@valuesChar[i,j], sep = "/")){
-    #           return(paste("The pairwise comparison matrix is not reciprocal. Problem with elements [", i, ",", j, "] and [", j, ",", i, "].", sep = ""))
-    #         }
-    #       }
-    #
-    #     }
-    #   }
-    # }
 
     if(max(object@values) > 9){
       warning(paste("The maximal value in the pairwise comparison matrix should not be higher than 9, however,",
@@ -113,6 +89,7 @@ setClass(
 #'
 #' @rdname pairwiseComparisonMatrix-methods
 #' @name pairwiseComparisonMatrix
+#' @importFrom MASS fractions
 setGeneric("pairwiseComparisonMatrix",
            function(matrix) standardGeneric("pairwiseComparisonMatrix"))
 
@@ -125,47 +102,119 @@ setMethod(
   {
     if(typeof(matrix)=="character"){
 
-      values = matrix(data = 0, nrow = nrow(matrix), ncol = ncol(matrix))
-
-      for (i in 1:nrow(matrix)){
-        for (j in 1:ncol(matrix)){
-
-          if(nchar(matrix[i,j])==3 & substr(matrix[i,j],1,2)=="1/"){
-            number = as.integer(substr(matrix[i,j],3,4))
-
-            values[i,j] = 1/number
-          }else{
-            values[i,j] = as.integer(substr(matrix[i,j],1,2))
-          }
-        }
-      }
+      values = .parseCharacterMatrix(matrix)
       names = .getVariableNames(matrix)
       colnames(matrix) = NULL
+      matrix = .textMatrixRepresentation(values)
 
     }else if(typeof(matrix)=="double"){
-      values = matrix
-      colnames(values) = NULL
+
+      values = .parseDoubleMatrix(matrix)
       names = .getVariableNames(matrix)
       matrix = matrix(as.character(values), nrow = nrow(values), ncol=ncol(values))
       colnames(matrix) = NULL
+      matrix = .textMatrixRepresentation(values)
     }
-
-
-    # if(length(colnames(matrix))>0){
-    #   variableNames = colnames(matrix)
-    # }else if(length(rownames(matrix))>0){
-    #   variableNames = rownames(matrix)
-    # }else{
-    #   variableNames = NA_character_
-    # }
 
     return(new("PairwiseComparisonMatrix", valuesChar = matrix, values = values,
                variableNames = names))
   }
 )
 
+setGeneric(".textMatrixRepresentation",
+           function(matrix) standardGeneric(".textMatrixRepresentation"))
 
+setMethod(
+  f=".textMatrixRepresentation",
+  signature(matrix = "matrix"),
+  definition=function(matrix)
+  {
+    values = matrix(data = "", nrow = nrow(matrix), ncol = ncol(matrix))
 
+    for (i in 1:nrow(matrix)){
+      for (j in 1:ncol(matrix)){
+
+        values[i, j] = as.character(fractions(matrix[i, j]))
+      }
+    }
+
+    return(values)
+  }
+)
+
+setGeneric(".parseDoubleMatrix",
+           function(matrix) standardGeneric(".parseDoubleMatrix"))
+setMethod(
+  f=".parseDoubleMatrix",
+  signature(matrix = "matrix"),
+  definition=function(matrix)
+  {
+    values = matrix(data = 0, nrow = nrow(matrix), ncol = ncol(matrix))
+
+    for (i in 1:nrow(matrix)){
+      for (j in 1:ncol(matrix)){
+
+        if(is.na(matrix[i, j]) || matrix[i, j]==0){
+          values[i, j] = 0
+        }else{
+          values[i, j] = matrix[i, j]
+        }
+
+      }
+    }
+
+    if(all(values[upper.tri(values)] == 0)){
+      values[upper.tri(values)] = 1/t(values)[upper.tri(1/t(values))]
+    }
+    if(all(values[lower.tri(values)] == 0)){
+      values[lower.tri(values)] = 1/t(values)[lower.tri(1/t(values))]
+    }
+
+    return(values)
+  }
+)
+
+setGeneric(".parseCharacterMatrix",
+           function(matrix) standardGeneric(".parseCharacterMatrix"))
+setMethod(
+  f=".parseCharacterMatrix",
+  signature(matrix = "matrix"),
+  definition=function(matrix)
+  {
+    values = matrix(data = 0, nrow = nrow(matrix), ncol = ncol(matrix))
+
+    for (i in 1:nrow(matrix)){
+      for (j in 1:ncol(matrix)){
+
+        cell = gsub(" ", "", matrix[i,j])
+
+        if(cell == "" || is.na(cell)){
+
+          values[i, j] = 0
+        }else if(grepl("/", cell)){
+
+          numbers = unlist(strsplit(cell, "/"))
+          if(suppressWarnings(is.na(as.numeric(numbers[1]))) || suppressWarnings(is.na(as.numeric(numbers[2])))){
+            stop(paste0("Element [", i, ",", j,"] is not a number - ", cell, "."))
+          }
+          values[i,j] = as.numeric(numbers[1]) / as.numeric(numbers[2])
+        }else{
+
+          values[i,j] = as.numeric(cell)
+        }
+      }
+    }
+
+    if(all(values[upper.tri(values)] == 0)){
+      values[upper.tri(values)] = 1/t(values)[upper.tri(1/t(values))]
+    }
+    if(all(values[lower.tri(values)] == 0)){
+      values[lower.tri(values)] = 1/t(values)[lower.tri(1/t(values))]
+    }
+
+    return(values)
+  }
+)
 
 # new internal function for obtaining names from matrix
 setGeneric(".getVariableNames",
@@ -182,7 +231,10 @@ setMethod(
     }else if(length(rownames(matrix))>0){
       variableNames = rownames(matrix)
     }else{
-      variableNames = NA_character_
+      variableNames = c()
+      for(i in 1:nrow(matrix)){
+        variableNames = c(variableNames, paste0("C_",i))
+      }
     }
 
     return(variableNames)

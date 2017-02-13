@@ -10,11 +10,12 @@
 setClass(
   Class="FuzzyData",
 
-  representation(
+  slots = c(
     fnMin = "matrix",
     fnModal = "matrix",
     fnMax = "matrix"
   ),
+
   validity=function(object)
   {
     if(ncol(object@fnMin)!=ncol(object@fnMax) || ncol(object@fnModal)!=ncol(object@fnMax) || ncol(object@fnMin)!=ncol(object@fnModal)){

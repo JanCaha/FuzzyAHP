@@ -7,7 +7,7 @@
 #' @param object An object of class \code{\linkS4class{FuzzyData}} or \code{\linkS4class{FuzzyWeights}}
 #' @param index An object of class \code{integer} that represents one or more indices to extract the data from
 #'
-#' @return A \code{matrix} where rows
+#' @return A \code{matrix} where rows are fuzzy numbers and columns are important values.
 #'
 #' @export
 #' @rdname getFuzzyNumber-methods

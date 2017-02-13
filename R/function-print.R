@@ -1,27 +1,31 @@
 #' @export
 print.FuzzyPairwiseComparisonMatrix  <- function(x, ...){
-  textMatrix = matrix(data = "",  nrow = nrow(x@fnMin), ncol = ncol(x@fnMin))
+  # textMatrix = matrix(data = "",  nrow = nrow(x@fnMin), ncol = ncol(x@fnMin))
 
-  for(i in 1:nrow(x@fnMin)){
-    for(j in 1:ncol(x@fnMin)){
-      textMatrix[i,j] = paste("(", round(x@fnMin[i,j], digits = 4), ";",
-                              round(x@fnModal[i,j], digits = 4), ";",
-                              round(x@fnMax[i,j], digits = 4), ")", sep = "")
-    }
-  }
+  # for(i in 1:nrow(x@fnMin)){
+  #   for(j in 1:ncol(x@fnMin)){
+  #     textMatrix[i,j] = paste("(", round(x@fnMin[i,j], digits = 4), ";",
+  #                             round(x@fnModal[i,j], digits = 4), ";",
+  #                             round(x@fnMax[i,j], digits = 4), ")", sep = "")
+  #   }
+  # }
+
+  textMatrix = textRepresentation(x)
 
   print(textMatrix)
 }
 
 #' @export
 print.PairwiseComparisonMatrix  <- function(x, ...){
-  textMatrix = matrix(data = "",  nrow = nrow(x@valuesChar), ncol = ncol(x@valuesChar))
+  # textMatrix = matrix(data = "",  nrow = nrow(x@valuesChar), ncol = ncol(x@valuesChar))
+  #
+  # for(i in 1:nrow(x@valuesChar)){
+  #   for(j in 1:ncol(x@valuesChar)){
+  #     textMatrix[i,j] = x@valuesChar[i,j]
+  #   }
+  # }
 
-  for(i in 1:nrow(x@valuesChar)){
-    for(j in 1:ncol(x@valuesChar)){
-      textMatrix[i,j] = x@valuesChar[i,j]
-    }
-  }
+  textMatrix = textRepresentation(x)
 
   print(textMatrix)
 }

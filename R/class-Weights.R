@@ -9,9 +9,10 @@
 setClass(
   Class="Weights",
 
-  representation(
+  slots = c(
     weights = "numeric"
   ),
+
   validity=function(object)
   {
      if(!(all.equal(sum(object@weights),1, tolerance=0.000001))){

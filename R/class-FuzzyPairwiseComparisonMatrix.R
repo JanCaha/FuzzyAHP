@@ -8,16 +8,16 @@
 #'
 #' @export
 #' @include class-PairwiseComparisonMatrix.R
-#'
 setClass(
   Class="FuzzyPairwiseComparisonMatrix",
 
-  representation(
+  slots = c(
     fnMin = "matrix",
     fnModal = "matrix",
     fnMax = "matrix",
     variableNames = "character"
   ),
+
   validity=function(object)
   {
     if(length(which(object@fnMin>object@fnModal)) != 0){
@@ -57,7 +57,14 @@ setClass(
 #'
 #' @param pairwiseComparisonMatrix \linkS4class{PairwiseComparisonMatrix} or \code{matrix}.
 #' @param fuzzyScale A numeric vector that definies fuzzy scale. Default scale is described in details.
+#' @param comparsionNotInScale A boolean variable. If \code{TRUE} the intensities not found in
+#' \code{fuzzyScale} are calculated with use of \code{width} parameter. Default value \code{FALSE}.
+#' @param width A numeric parameter, specifying the width of calculated fuzzy intensity. If
+#' \code{comparsionNotInScale} is \code{FALSE} then the parameter is not considered.
+#' Default value \code{1}.
 #'
+#' @usage fuzzyPairwiseComparisonMatrix(pairwiseComparisonMatrix, fuzzyScale,
+#' comparsionNotInScale, width)
 #' @usage fuzzyPairwiseComparisonMatrix(pairwiseComparisonMatrix, fuzzyScale)
 #'
 #' @return Object of class \linkS4class{FuzzyPairwiseComparisonMatrix}
@@ -67,31 +74,29 @@ setClass(
 #' @name fuzzyPairwiseComparisonMatrix
 setGeneric("fuzzyPairwiseComparisonMatrix",
            signature = c("pairwiseComparisonMatrix"),
-           function(pairwiseComparisonMatrix, fuzzyScale = as.double(c(1/2,1,2,
-                                                                         1,2,3,
-                                                                         2,3,4,
-                                                                         3,4,5,
-                                                                         4,5,6,
-                                                                         5,6,7,
-                                                                         6,7,8,
-                                                                         7,8,9,
-                                                                         8,9,9))
+           function(pairwiseComparisonMatrix, fuzzyScale = getFuzzyScale(type="full"),
+                    comparsionNotInScale = FALSE, width = 1
                     ) standardGeneric("fuzzyPairwiseComparisonMatrix"))
 
 #' @rdname fuzzyPairwiseComparisonMatrix-methods
 #' @aliases fuzzyPairwiseComparisonMatrix,PairwiseComparisonMatrix,fuzzyScale-method
-#' @importFrom FRACTION fra.m
 setMethod(
   f="fuzzyPairwiseComparisonMatrix",
   signature(pairwiseComparisonMatrix = "PairwiseComparisonMatrix"),
-  definition=function(pairwiseComparisonMatrix, fuzzyScale)
+  definition=function(pairwiseComparisonMatrix, fuzzyScale, comparsionNotInScale, width)
   {
 
-    if(!(length(fuzzyScale)%%3==0)){
-      stop(paste("The fuzzy scale lenght has to be x*3. This fuzzy scale does not fulfill this condition."))
+    if(class(fuzzyScale)!="matrix"){
+      if(!(length(fuzzyScale)%%3==0)){
+        stop(paste("The fuzzy scale lenght has to be x*3. This fuzzy scale does not fulfill this condition."))
+      }
+
+      # transform fuzzy scale into matrix
+      fuzzyScale = matrix(data = fuzzyScale, nrow = length(fuzzyScale)/3, ncol = 3, byrow = TRUE)
     }
 
     size = nrow(pairwiseComparisonMatrix@values)
+
     # prepare 3 matrices for fuzzy values, each hase size of the original matrix
     fnMin = matrix(data = 0, nrow = size, ncol = size)
     fnModal = matrix(data = 0, nrow = size, ncol = size)
@@ -100,53 +105,76 @@ setMethod(
     # diagonal fuzzy values are crips ones
     v1diagonal = c(1,1,1)
 
-    # transfor fuzzy scale into matrix
-    #valuesMatrix = matrix(data = fuzzyScale, nrow = 9, ncol = 3, byrow = TRUE)
-    valuesMatrix = matrix(data = fuzzyScale, nrow = length(fuzzyScale)/3, ncol = 3, byrow = TRUE)
-
-
-    # prepare matrix of inverted fuzzy values from the scale
-    invertedValuesMatrix = matrix(data = 1.0, nrow = length(fuzzyScale)/3, ncol = 3, byrow = TRUE ) / valuesMatrix
-    invertedValuesMatrix = cbind(invertedValuesMatrix[,3], invertedValuesMatrix[,2], invertedValuesMatrix[,1])
-
     for (i in 1:size){
       for (j in 1:size){
 
-        charIntensity = pairwiseComparisonMatrix@valuesChar[i,j]
+        intensity = pairwiseComparisonMatrix@values[i, j]
 
-        if(suppressWarnings(!is.na(as.numeric(charIntensity))) && as.numeric(charIntensity)<1){
-          charIntensity = gsub(" ", "", fra.m(charIntensity))
-          print(charIntensity)
-        }
-
-        if (i==j & charIntensity == "1"){
+        if(i==j & intensity == 1){
           fnMin[i,j] = v1diagonal[1]
           fnModal[i,j] = v1diagonal[2]
           fnMax[i,j] = v1diagonal[3]
         }
-        else if (nchar(charIntensity)==3 & substr(charIntensity,1,2)=="1/"){
-          number = which(valuesMatrix[,2] == as.integer(substr(charIntensity,3,4))) #as.integer(substr(charIntensity,3,4))
+        else if(intensity>=1){
+          number = which(fuzzyScale[,2] == intensity)
 
           if(length(number)==0){
-            stop(paste("Value ",charIntensity," does not exist in fuzzy scale!", sep = ""))
-          }
 
-          fnMin[i,j] = invertedValuesMatrix[number,1]
-          fnModal[i,j] = invertedValuesMatrix[number,2]
-          fnMax[i,j] = invertedValuesMatrix[number,3]
+            if(!comparsionNotInScale){
+              stop(paste0("Value ",intensity," does not exist in fuzzy scale!"))
+            }else{
+              min = intensity - width
+              max = intensity + width
+
+              if(max>9){
+                max = 9
+              }
+              if(min<1){
+                min = 1/max
+              }
+
+              fnMin[i,j] = min
+              fnModal[i,j] = intensity
+              fnMax[i,j] = max
+            }
+
+          }else{
+            fnMin[i,j] = fuzzyScale[number,1]
+            fnModal[i,j] = fuzzyScale[number,2]
+            fnMax[i,j] = fuzzyScale[number,3]
+          }
         }
-        else if (nchar(charIntensity)==1){
-          number = which(valuesMatrix[,2] == as.integer(substr(charIntensity,1,2))) #as.integer(substr(charIntensity,1,2))
+        else if(intensity<1){
+          tempIntensity = pairwiseComparisonMatrix@values[j, i]
+
+          number = which(fuzzyScale[,2] == tempIntensity)
 
           if(length(number)==0){
-            stop(paste("Value ",charIntensity," does not exist in fuzzy scale!", sep = ""))
-          }
 
-          fnMin[i,j] = valuesMatrix[number,1]
-          fnModal[i,j] = valuesMatrix[number,2]
-          fnMax[i,j] = valuesMatrix[number,3]
-        }
-        else{
+            if(!comparsionNotInScale){
+              stop(paste0("Value ",intensity," does not exist in fuzzy scale!"))
+            }else{
+              min = tempIntensity - width
+              max = tempIntensity + width
+
+              if(max>9){
+                max = 9
+              }
+              if(min<1){
+                min = 1/max
+              }
+
+              fnMin[i,j] = 1/max
+              fnModal[i,j] = 1/tempIntensity
+              fnMax[i,j] = 1/min
+            }
+
+          }else{
+            fnMin[i,j] = 1/fuzzyScale[number,3]
+            fnModal[i,j] = 1/fuzzyScale[number,2]
+            fnMax[i,j] = 1/fuzzyScale[number,1]
+          }
+        }else{
           stop("This should never happen. Error in format of pairwise comparison matrix.")
         }
       }
@@ -157,11 +185,11 @@ setMethod(
 )
 
 #' @rdname fuzzyPairwiseComparisonMatrix-methods
-#' @aliases fuzzyPairwiseComparisonMatrix,PairwiseComparisonMatrix,fuzzyScale-method
+#' @aliases fuzzyPairwiseComparisonMatrix,PairwiseComparisonMatrix
 setMethod(
   f="fuzzyPairwiseComparisonMatrix",
   signature(pairwiseComparisonMatrix = "matrix"),
-  definition=function(pairwiseComparisonMatrix, fuzzyScale)
+  definition=function(pairwiseComparisonMatrix)
   {
     if(typeof(pairwiseComparisonMatrix)!="character"){
       stop("Can only parse character matrix as fuzzy pairwise comparison matrix!")
@@ -211,9 +239,6 @@ setMethod(
     mModal = pairwiseComparisonMatrix(mModal)
 
     return(fuzzyPairwiseComparisonMatrix1(mMin, mModal, mMax))
-
-    # return(new("FuzzyPairwiseComparisonMatrix", fnMin = mMin, fnModal = mModal@values,
-    #            fnMax = mMax, variableNames = .getVariableNames(pairwiseComparisonMatrix)))
   }
 )
 
