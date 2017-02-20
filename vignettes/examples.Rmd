@@ -65,16 +65,27 @@ comparisonMatrixValues = c("1","9","5",
                            "","","1")
 comparisonMatrix = matrix(comparisonMatrixValues, nrow = 3, ncol = 3, byrow = TRUE)
 ```
-Either way the comparsion matrix is created using command pairwiseComparisonMatrix. After printing we can see that the S4 object contains two representation of the matrix, One as characters and other one as numeric.
+Either way the comparsion matrix is created using command pairwiseComparisonMatrix. After printing we can see that the S4 object contains two representation of the matrix, one as characters and other one as numeric as well as slot for variables names, which in this case is filled automatically.
 
 ```{r}
 comparisonMatrix = pairwiseComparisonMatrix(comparisonMatrix)
+show(comparisonMatrix)
 ```
 
+The textual representation of the pairwise comparison matrix can be obtained as:
+```{r}
+textMatrix = textRepresentation(comparisonMatrix, whole = FALSE)
+print(textMatrix)
+```
+The ```whole``` parameter specifies if the full matrix is printed or only the upper triangle including main diagonal. Setting the parameter to ```TRUE``` is equal to using:
+```{r}
+print(comparisonMatrix)
+```
 
+ 
 ### Testing consistency of Pairwise Comparison Matrix
 
-There are three consistency checks impelemnted in FuzzyAHP package. The first is consistency ratio as defined by @Saaty1980. The functions output short message summarizing the calculation and provides value of the consistency ratio. The consistency ration can be calculated for matrices with size up to $15 \times 15$ according to @Saaty2007.
+There are three consistency checks implemented in FuzzyAHP package. The first is consistency ratio as defined by @Saaty1980. The functions output short message summarizing the calculation and provides value of the consistency ratio. The consistency ration can be calculated for matrices with size up to $15 \times 15$ according to @Saaty2007.
 
 ```{r}
 consistencyRatio(comparisonMatrix)
@@ -82,7 +93,7 @@ CR = consistencyRatio(comparisonMatrix, print.report = FALSE)
 print(CR)
 ```
 
-Another check is a weak consistency that checks if for $a_{ij}>1$ and $a_{jk}>1$ applies that $a_{ik}>=\max(a_{ij},a_{jk})$ for every $i,j,k = 1,2,\dots,n$, where $n$ is a size of matrix $a$ [@Stoklasa2013]. The functions returns TRUE if the matrix passes the test or FALSE if it fails and print short message (warning message summarazing the issues, if they exist, is printed as well).
+Another check is a weak consistency that checks if for $a_{ij}>1$ and $a_{jk}>1$ applies that $a_{ik}>=\max(a_{ij},a_{jk})$ for every $i,j,k = 1,2,\dots,n$, where $n$ is a size of matrix $a$ [@Stoklasa2013]. The functions returns TRUE if the matrix passes the test or FALSE if it fails and print short message (warning message summarizing the issues, if they exist, is printed as well).
 
 ```{r}
 weakConsistency = weakConsistency(comparisonMatrix)
