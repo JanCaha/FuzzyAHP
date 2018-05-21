@@ -1,12 +1,12 @@
 Package: FuzzyAHP
 Type: Package
 Title: (Fuzzy) AHP Calculation
-Version: 0.9.0
-Date: 2016-11-01
+Version: 0.9.1
+Date: 2018-05-21
 Authors@R: c(person("Jan", "Caha", email = "cahik@atlas.cz",
   role = c("aut", "cre")),
   person("Aneta", "Drážná", email = "",
-  role = c("ctb", "com")))
+  role = c("ctb", "com"), comment = "up to version 0.6.5"))
 URL: http://github.com/JanCaha/FuzzyAHP/
 Description: Calculation of AHP (Analytic Hierarchy Process -
     <http://en.wikipedia.org/wiki/Analytic_hierarchy_process>)
@@ -18,7 +18,8 @@ Depends:
     methods,
     MASS
 Suggests:
-    knitr
+    knitr,
+	  testthat
 License: LGPL (>= 3)
 LazyData: TRUE
 VignetteBuilder: knitr
