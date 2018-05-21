@@ -6,6 +6,7 @@ output:
   rmarkdown::html_vignette:
     toc: TRUE
 bibliography: ahp-bibliography.bib
+link-citations: yes
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{Vignette Title}
@@ -13,7 +14,7 @@ vignette: >
 ---
 ## Basic Info
 
-**FuzzyAHP** is an **R** package for calculation of both classic and fuzzy AHP. The package is only suitable for AHP that uses categorical rating of criteria for alternatives instead of pairwise comparison of alternatives according to each criteria. This adaptation of AHP is common in situations when the number of alternatives is hight and the pairwise comparison is thus inadequate or impossible to construct. The weights for criteria are, however, still determined from the pairwise comparison matrix. This approach towards AHP is common in Geosciences as well as other fields (please see References for examples).
+**FuzzyAHP** is an **R** package for calculation of both classic and fuzzy AHP. The package is only suitable for AHP that uses categorical rating of criteria for alternatives instead of pairwise comparison of alternatives according to each criteria. This adaptation of AHP is common in situations when the number of alternatives is hight and the pairwise comparison is thus inadequate or impossible to construct. The weights for criteria are, however, still determined from the pairwise comparison matrix. This approach towards AHP is common in Geosciences as well as other fields (please see References for examples). A practical example of using **FuzzyAHP** in geosciences can be found in @Caha2017.
 
 The determination of criteria weights is done according to process described by @Krejci2016, which yelds significantly narrower fuzzy numbers than previously used approaches.
 
@@ -22,6 +23,23 @@ The determination of criteria weights is done according to process described by 
 To cite this package use:
 ```{r}
 citation("FuzzyAHP")
+```
+
+If you use this package in publication, please consider citing our article:
+@Caha2017
+
+```
+@InCollection{Caha2017,
+  author        = {Caha, Jan and Burian, Jaroslav},
+  title         = {{Comparison of Fuzzy AHP Algorithms for Land Suitability Assessment}},
+  booktitle     = {Dynamics in GIscience. GIS OSTRAVA 2017. Lecture Notes in Geoinformation and Cartography},
+  publisher     = {Springer},
+  year          = {2017},
+  editor        = {Ivan, Igor and Hor{\'{a}}k, Ji\v{r}{\'{i}} and Inspektor, Tom{\'{a}}{\v{s}}},
+  pages         = {31--46},
+  address       = {Cham},
+  doi           = {10.1007/978-3-319-61297-3_3},
+}
 ```
 
 ## Source

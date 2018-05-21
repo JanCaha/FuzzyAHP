@@ -6,6 +6,7 @@ output:
   rmarkdown::html_vignette:
     toc: TRUE
 bibliography: ahp-bibliography.bib
+link-citations: yes
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{Examples of FuzzyAHP package application}
