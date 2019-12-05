@@ -16,7 +16,7 @@ jobs:
         with:
           r-version: 'devel'
 
-       - name: Install XQuartz
+      - name: Install XQuartz
         env:
           XQUARTZ_VERSION: 2.7.11
         run: |
