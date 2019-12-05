@@ -23,7 +23,7 @@ Suggests:
 License: LGPL (>= 3)
 LazyData: TRUE
 VignetteBuilder: knitr
-RoxygenNote: 5.0.1
+RoxygenNote: 7.0.1
 Collate:
     'class-FuzzyData.R'
     'class-PairwiseComparisonMatrix.R'
@@ -34,7 +34,6 @@ Collate:
     'function-buildFuzzyPairwiseComparisonMatrix.R'
     'function-buildPairwiseComparisonMatrix.R'
     'function-calculateAHP.R'
-    'function-calculateFuzzyAHP.R'
     'function-calculateWeights.R'
     'function-compare.R'
     'function-consistencyIndex.R'
