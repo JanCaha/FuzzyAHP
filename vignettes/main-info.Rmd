@@ -9,7 +9,6 @@ bibliography: ahp-bibliography.bib
 link-citations: yes
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{Vignette Title}
   \usepackage[utf8]{inputenc}
 ---
 ## Basic Info
