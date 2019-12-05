@@ -8,23 +8,20 @@ name: R-CMD-check
 
 jobs:
   R-CMD-check:
-    runs-on: macOS-latest
+
+    runs-on: ubuntu-16.04
+
+    env:
+        R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+        _R_CHECK_FORCE_SUGGESTS_: false
+        CRAN: "https://demo.rstudiopm.com/all/__linux__/xenial/latest"
+
     steps:
 
       - uses: actions/checkout@v1
       - uses: r-lib/actions/setup-r@master
         with:
           r-version: 'devel'
-
-      - name: Install XQuartz
-        env:
-          XQUARTZ_VERSION: 2.7.11
-        run: |
-           curl -fLo /tmp/XQuartz.dmg "https://dl.bintray.com/xquartz/downloads/XQuartz-${XQUARTZ_VERSION}.dmg"
-           sudo hdiutil attach -noverify /tmp/XQuartz.dmg
-           sudo installer -pkg "/Volumes/XQuartz-${XQUARTZ_VERSION}/XQuartz.pkg" -target /
-           sudo hdiutil detach /Volumes/XQuartz-${XQUARTZ_VERSION}
-           rm /tmp/XQuartz.dmg
 
       - name: Cache R packages
         uses: actions/cache@v1
