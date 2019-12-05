@@ -9,6 +9,7 @@ bibliography: ahp-bibliography.bib
 link-citations: yes
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Information about FuzzyAHP package for R}
   \usepackage[utf8]{inputenc}
 ---
 ## Basic Info
