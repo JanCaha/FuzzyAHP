@@ -7,9 +7,9 @@ r_packages:
   - devtools
   - remotes
 
-install:
-- R -e 'devtools::install_deps(dep = TRUE)'
+before_script:
+  - Rscript -e 'devtools::install_deps(dep = TRUE)'
 
 script:
-- R CMD build .
-- R CMD check *tar.gz
+  - Rscript -e "devtools::document(roclets = c('rd', 'collate', 'namespace', 'vignette'))"
+  - Rscript -e "devtools::check(args = c('--as-cran'))"
