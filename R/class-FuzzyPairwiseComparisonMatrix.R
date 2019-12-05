@@ -56,16 +56,17 @@ setClass(
 #' \code{fuzzyScale} is not taken into account at all.
 #'
 #' @param pairwiseComparisonMatrix \linkS4class{PairwiseComparisonMatrix} or \code{matrix}.
-#' @param fuzzyScale A numeric vector that definies fuzzy scale. Default scale is described in details.
+#' @param fuzzyScale A numeric vector that definies fuzzy scale. Default scale is described in
+#' details. Default value \code{getFuzzyScale(type="full")}.
 #' @param comparsionNotInScale A boolean variable. If \code{TRUE} the intensities not found in
-#' \code{fuzzyScale} are calculated with use of \code{width} parameter. Default value \code{FALSE}.
+#' \code{fuzzyScale} are calculated with use of \code{width} parameter. Default value
+#' \code{FALSE}.
 #' @param width A numeric parameter, specifying the width of calculated fuzzy intensity. If
 #' \code{comparsionNotInScale} is \code{FALSE} then the parameter is not considered.
 #' Default value \code{1}.
 #'
 #' @usage fuzzyPairwiseComparisonMatrix(pairwiseComparisonMatrix, fuzzyScale,
 #' comparsionNotInScale, width)
-#' @usage fuzzyPairwiseComparisonMatrix(pairwiseComparisonMatrix, fuzzyScale)
 #'
 #' @return Object of class \linkS4class{FuzzyPairwiseComparisonMatrix}
 #'
@@ -83,10 +84,11 @@ setGeneric("fuzzyPairwiseComparisonMatrix",
 setMethod(
   f="fuzzyPairwiseComparisonMatrix",
   signature(pairwiseComparisonMatrix = "PairwiseComparisonMatrix"),
-  definition=function(pairwiseComparisonMatrix, fuzzyScale, comparsionNotInScale, width)
+  definition=function(pairwiseComparisonMatrix, fuzzyScale = getFuzzyScale(type="full"),
+                      comparsionNotInScale = FALSE, width = 1)
   {
 
-    if(class(fuzzyScale)!="matrix"){
+    if(!is(fuzzyScale, "matrix")){
       if(!(length(fuzzyScale)%%3==0)){
         stop(paste("The fuzzy scale lenght has to be x*3. This fuzzy scale does not fulfill this condition."))
       }
