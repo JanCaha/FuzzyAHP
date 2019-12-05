@@ -4,6 +4,10 @@ cache: packages
 r:
   - devel
 
+r_packages:
+  - devtools
+  - remotes
+
 install:
 - R -e 'devtools::install_deps(dep = TRUE)'
 
