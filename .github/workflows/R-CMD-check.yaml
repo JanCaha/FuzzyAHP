@@ -39,11 +39,13 @@ jobs:
 
       - name: Install dependencies
         run: |
-          Rscript -e "install.packages(c('remotes', 'rcmdcheck'))"
+          Rscript -e "install.packages(c('remotes', 'rcmdcheck',  'devtools'))"
           Rscript -e "remotes::install_deps(dependencies = TRUE)"
 
       - name: Check
-        run: Rscript -e "rcmdcheck::rcmdcheck(args = '--no-manual', error_on = 'error')"
+        run: |
+          Rscript -e "devtools::document(roclets = c('rd', 'collate', 'namespace', 'vignette'))"
+          Rscript -e "rcmdcheck::rcmdcheck(args = '--no-manual', error_on = 'error')"
 
       - name: Upload check results
         if: failure()
