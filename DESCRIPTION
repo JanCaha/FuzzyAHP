@@ -2,11 +2,9 @@ Package: FuzzyAHP
 Type: Package
 Title: (Fuzzy) AHP Calculation
 Version: 0.9.5
-Date: 2018-05-21
+Date: 2019-12-06
 Authors@R: c(person("Jan", "Caha", email = "cahik@atlas.cz",
-  role = c("aut", "cre")),
-  person("Aneta", "Drážná", email = "",
-  role = c("ctb", "com"), comment = "up to version 0.6.5"))
+  role = c("aut", "cre")))
 URL: http://github.com/JanCaha/FuzzyAHP/
 Description: Calculation of AHP (Analytic Hierarchy Process -
     <http://en.wikipedia.org/wiki/Analytic_hierarchy_process>)
